@@ -1,6 +1,7 @@
 import argparse, json, random, yaml, torch
 from pathlib import Path
 from torch.utils.data import DataLoader
+from .batching import LengthBucketBatchSampler
 from .model import MicroTransformer
 from .data import ParallelDataset, collate
 from .tokenizer import SimpleTokenizer
@@ -29,7 +30,7 @@ def main():
  a=p.parse_args(); c=yaml.safe_load(open(a.config)); random.seed(c['seed']); torch.manual_seed(c['seed'])
  saved=torch.load(a.resume,map_location='cpu') if a.resume else None
  tok=load_tokenizer(a,saved,a.data)
- ds=ParallelDataset(a.data,tok,c['max_len']); dl=DataLoader(ds,c['batch_size'],shuffle=True,collate_fn=lambda x:collate(x,tok,c['max_len']))
+ ds=ParallelDataset(a.data,tok,c['max_len']); sampler=LengthBucketBatchSampler(ds,c['batch_size'],seed=c['seed']); dl=DataLoader(ds,batch_sampler=sampler,collate_fn=lambda x:collate(x,tok,c['max_len']))
  m=build_model(tok.vocab_size,c)
  if saved: m.load_state_dict(saved['model'])
  teacher=None
@@ -40,7 +41,7 @@ def main():
  if saved and 'optimizer' in saved: opt.load_state_dict(saved['optimizer']); scheduler.load_state_dict(saved.get('scheduler',{})); scaler.load_state_dict(saved.get('scaler',{}))
  valid_dl=None
  if a.valid:
-  valid_ds=ParallelDataset(a.valid,tok,c['max_len']); valid_dl=DataLoader(valid_ds,c['batch_size'],shuffle=False,collate_fn=lambda x:collate(x,tok,c['max_len']))
+  valid_ds=ParallelDataset(a.valid,tok,c['max_len']); valid_sampler=LengthBucketBatchSampler(valid_ds,c['batch_size'],seed=c['seed']); valid_dl=DataLoader(valid_ds,batch_sampler=valid_sampler,collate_fn=lambda x:collate(x,tok,c['max_len']))
  Path(c['run_dir']).mkdir(parents=True,exist_ok=True); best=float('inf')
  alpha=float(c.get('alpha_hard',1.0)); beta=float(c.get('beta_kl',0.0)); temperature=float(c.get('temperature',2.0))
  for ep in range(c['epochs']):
