@@ -13,10 +13,10 @@ class ParallelDataset(Dataset):
             key=(s,t)
             if not s or not t or key in seen or len(s)>4000 or len(t)>4000: continue
             if re.search(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', s+t): continue
-            seen.add(key); self.rows.append((s,t))
+            seen.add(key); self.rows.append((s,t,r))
         self.direction=direction
     def __len__(self): return len(self.rows)
-    def __getitem__(self,i): return self.rows[i]
+    def __getitem__(self,i): return self.rows[i][:2]
 
 def collate(batch, tokenizer, max_len=256, direction='ru2en'):
     src, tgt=zip(*batch); tag='<ru2en>' if direction=='ru2en' else '<en2ru>'
