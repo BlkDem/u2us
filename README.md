@@ -15,6 +15,12 @@ python -m micronmt.train --config configs/tiny.yaml --data data/toy/train.jsonl 
 python -m micronmt.train --config configs/tiny.yaml --data new_data/ru_en.jsonl --resume runs/tiny/last.pt
 # экспорт ONNX
 python -m micronmt.export --checkpoint runs/tiny/last.pt --out runs/tiny/model.onnx
+# bidirectional evaluation of a shared checkpoint
+python scripts/evaluate_bidir.py \
+  --checkpoint runs/shared/best.pt \
+  --ru-en data/ru_en/test.jsonl \
+  --en-ru data/en_ru/test.jsonl \
+  --out reports/bidirectional.json
 # distillation from a compatible teacher checkpoint
 python -m micronmt.train --config configs/tiny.yaml --data data/ru_en/train.jsonl \
   --valid data/ru_en/valid.jsonl --teacher runs/teacher.pt
