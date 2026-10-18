@@ -7,6 +7,7 @@ from .data import ParallelDataset, collate
 from .tokenizer import SimpleTokenizer
 from .sp_tokenizer import SentencePieceTokenizer
 from .distill import distillation_loss
+from .evaluate import corpus as read_eval_corpus
 
 MODEL_KEYS=('d_model','nhead','encoder_layers','decoder_layers','dim_feedforward','dropout','max_len')
 
@@ -26,7 +27,7 @@ def build_model(vocab_size, config):
 def main():
  p=argparse.ArgumentParser()
  p.add_argument('--config',required=True); p.add_argument('--data',required=True); p.add_argument('--valid')
- p.add_argument('--resume'); p.add_argument('--sp-model'); p.add_argument('--teacher'); p.add_argument('--grad-accum',type=int,default=1); p.add_argument('--amp',action='store_true'); p.add_argument('--max-steps',type=int,default=0)
+ p.add_argument('--resume'); p.add_argument('--sp-model'); p.add_argument('--teacher'); p.add_argument('--grad-accum',type=int,default=1); p.add_argument('--amp',action='store_true'); p.add_argument('--max-steps',type=int,default=0); p.add_argument('--patience',type=int,default=0)
  a=p.parse_args(); c=yaml.safe_load(open(a.config)); random.seed(c['seed']); torch.manual_seed(c['seed'])
  saved=torch.load(a.resume,map_location='cpu') if a.resume else None
  tok=load_tokenizer(a,saved,a.data)
@@ -42,7 +43,7 @@ def main():
  valid_dl=None
  if a.valid:
   valid_ds=ParallelDataset(a.valid,tok,c['max_len']); valid_sampler=LengthBucketBatchSampler(valid_ds,c['batch_size'],seed=c['seed']); valid_dl=DataLoader(valid_ds,batch_sampler=valid_sampler,collate_fn=lambda x:collate(x,tok,c['max_len']))
- Path(c['run_dir']).mkdir(parents=True,exist_ok=True); best=float('inf')
+ Path(c['run_dir']).mkdir(parents=True,exist_ok=True); best=float('inf'); bad_epochs=0
  alpha=float(c.get('alpha_hard',1.0)); beta=float(c.get('beta_kl',0.0)); temperature=float(c.get('temperature',2.0))
  for ep in range(c['epochs']):
   m.train(); total=0
@@ -70,5 +71,9 @@ def main():
   meta={'type':'sentencepiece','model_file':str(a.sp_model)} if a.sp_model else {'type':'simple','vocab':tok.vocab}
   payload={'model':m.state_dict(),'config':c,'tokenizer':meta,'epoch':ep+1,'train_loss':train_loss,'valid_loss':valid_loss,'teacher':a.teacher,'distillation':{'alpha_hard':alpha,'beta_kl':beta,'temperature':temperature},'optimizer':opt.state_dict(),'scheduler':scheduler.state_dict(),'scaler':scaler.state_dict()}
   torch.save(payload,Path(c['run_dir'])/'last.pt')
-  if score < best: best=score; torch.save(payload,Path(c['run_dir'])/'best.pt')
+  if score < best:
+   best=score; bad_epochs=0; torch.save(payload,Path(c['run_dir'])/'best.pt')
+  else:
+   bad_epochs+=1
+   if a.patience and bad_epochs>=a.patience: print('early_stop=true'); break
 if __name__=='__main__': main()
