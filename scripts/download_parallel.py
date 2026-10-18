@@ -3,7 +3,7 @@ from pathlib import Path
 
 def main():
  p=argparse.ArgumentParser(description='Download a licensed parallel corpus via Hugging Face Datasets')
- p.add_argument('--dataset',required=True,help='HF dataset name, e.g. opus100')
+ p.add_argument('--dataset',required=True,help='HF dataset name, e.g. Helsinki-NLP/opus-100')
  p.add_argument('--config',default=None); p.add_argument('--split',default='train'); p.add_argument('--out',required=True)
  p.add_argument('--source',default='ru'); p.add_argument('--target',default='en'); p.add_argument('--limit',type=int)
  p.add_argument('--src-key',default='translation'); a=p.parse_args()
