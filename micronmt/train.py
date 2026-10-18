@@ -25,7 +25,7 @@ def build_model(vocab_size, config):
 def main():
  p=argparse.ArgumentParser()
  p.add_argument('--config',required=True); p.add_argument('--data',required=True); p.add_argument('--valid')
- p.add_argument('--resume'); p.add_argument('--sp-model'); p.add_argument('--teacher'); p.add_argument('--grad-accum',type=int,default=1); p.add_argument('--amp',action='store_true')
+ p.add_argument('--resume'); p.add_argument('--sp-model'); p.add_argument('--teacher'); p.add_argument('--grad-accum',type=int,default=1); p.add_argument('--amp',action='store_true'); p.add_argument('--max-steps',type=int,default=0)
  a=p.parse_args(); c=yaml.safe_load(open(a.config)); random.seed(c['seed']); torch.manual_seed(c['seed'])
  saved=torch.load(a.resume,map_location='cpu') if a.resume else None
  tok=load_tokenizer(a,saved,a.data)
@@ -47,6 +47,7 @@ def main():
   m.train(); total=0
   opt.zero_grad()
   for step,(src,tgt) in enumerate(dl):
+   if a.max_steps and ep*len(dl)+step >= a.max_steps: break
    with torch.autocast('cpu',enabled=a.amp):
     student=m(src,tgt[:,:-1]); hard=tgt[:,1:]
     with torch.no_grad(): teacher_logits=teacher(src,tgt[:,:-1]) if teacher else None
