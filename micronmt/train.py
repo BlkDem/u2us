@@ -4,11 +4,14 @@ from torch.utils.data import DataLoader
 from .model import MicroTransformer
 from .data import ParallelDataset, collate
 from .tokenizer import SimpleTokenizer
+from .sp_tokenizer import SentencePieceTokenizer
 
 def main():
- p=argparse.ArgumentParser(); p.add_argument('--config',required=True); p.add_argument('--data',required=True); p.add_argument('--valid'); p.add_argument('--resume'); a=p.parse_args()
+ p=argparse.ArgumentParser(); p.add_argument('--config',required=True); p.add_argument('--data',required=True); p.add_argument('--valid'); p.add_argument('--resume'); p.add_argument('--sp-model'); a=p.parse_args()
  c=yaml.safe_load(open(a.config)); random.seed(c['seed']); torch.manual_seed(c['seed'])
- if a.resume:
+ if a.sp_model:
+  tok=SentencePieceTokenizer(a.sp_model)
+ elif a.resume:
   saved=torch.load(a.resume,map_location='cpu'); tok=SimpleTokenizer(saved.get('tokenizer'))
  else:
   texts=[]
@@ -27,5 +30,6 @@ def main():
   for src,tgt in dl:
    opt.zero_grad(); logits=m(src,tgt[:,:-1]); loss=loss_fn(logits.reshape(-1,logits.size(-1)),tgt[:,1:].reshape(-1)); loss.backward(); torch.nn.utils.clip_grad_norm_(m.parameters(),1.0); opt.step(); total+=loss.item()
   print(f'epoch={ep+1} loss={total/max(1,len(dl)):.4f}')
-  torch.save({'model':m.state_dict(),'config':c,'tokenizer':tok.vocab},Path(c['run_dir'])/'last.pt')
+  meta = {'type': 'sentencepiece', 'model_file': str(a.sp_model)} if a.sp_model else {'type': 'simple', 'vocab': tok.vocab}
+  torch.save({'model':m.state_dict(),'config':c,'tokenizer':meta},Path(c['run_dir'])/'last.pt')
 if __name__=='__main__': main()
