@@ -38,8 +38,11 @@ class MicroTransformer(nn.Module):
     @torch.no_grad()
     def greedy(self, src, bos_id=2, eos_id=3, max_len=256, pad_id=0):
         out = torch.full((src.size(0), 1), bos_id, dtype=torch.long, device=src.device)
+        finished = torch.zeros(src.size(0), dtype=torch.bool, device=src.device)
         for _ in range(max_len - 1):
             nxt = self(src, out, pad_id).argmax(-1)[:, -1:]
+            nxt = torch.where(finished[:, None], torch.full_like(nxt, eos_id), nxt)
             out = torch.cat([out, nxt], 1)
-            if (nxt == eos_id).all(): break
+            finished |= nxt[:, 0].eq(eos_id)
+            if finished.all(): break
         return out
