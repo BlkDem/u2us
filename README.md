@@ -15,6 +15,9 @@ python -m micronmt.train --config configs/tiny.yaml --data data/toy/train.jsonl 
 python -m micronmt.train --config configs/tiny.yaml --data new_data/ru_en.jsonl --resume runs/tiny/last.pt
 # экспорт ONNX
 python -m micronmt.export --checkpoint runs/tiny/last.pt --out runs/tiny/model.onnx
+# distillation from a compatible teacher checkpoint
+python -m micronmt.train --config configs/tiny.yaml --data data/ru_en/train.jsonl \
+  --valid data/ru_en/valid.jsonl --teacher runs/teacher.pt
 python -m micronmt.infer --checkpoint runs/tiny/best.pt --text 'Я решил остаться здесь.' --source ru --target en
 ```
 
@@ -24,7 +27,8 @@ python -m micronmt.infer --checkpoint runs/tiny/best.pt --text 'Я решил о
 
 - `micronmt/model.py` — компактный Transformer с shared embeddings, direction token и context support.
 - `micronmt/tokenizer.py` — SentencePiece Unigram/BPE; fallback whitespace tokenizer для smoke tests.
-- `micronmt/train.py` — CE + optional teacher soft-target KL, resume/full fine-tuning, AMP.
+- `micronmt/train.py` — CE + teacher soft-target KL, resume/full fine-tuning.
+- `micronmt/distill.py` — combined hard-target and temperature-scaled KL loss.
 - `micronmt/adapt.py` — lightweight LoRA-ready adaptation hook (требует PEFT для полноценного режима).
 - `micronmt/terminology.py` — термины передаются как source-side control hints, без global replace.
 - `micronmt/export.py` — ONNX export; production runtime не требует PyTorch.
