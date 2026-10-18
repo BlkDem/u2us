@@ -32,7 +32,8 @@ python -m micronmt.infer --checkpoint runs/tiny/best.pt --text 'Я решил о
 - `micronmt/adapt.py` — lightweight LoRA-ready adaptation hook (требует PEFT для полноценного режима).
 - `micronmt/terminology.py` — термины передаются как source-side control hints, без global replace.
 - `micronmt/export.py` — ONNX export; production runtime не требует PyTorch.
-- `micronmt/evaluate.py` — BLEU/chrF, optional sacrebleu/COMET.
+- `micronmt/evaluate.py` — BLEU/chrF and optional COMET JSON report.
+- `micronmt/benchmark.py` — CPU latency, throughput, parameter count and checkpoint size.
 
 ## План экспериментов
 
