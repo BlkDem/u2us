@@ -1,0 +1,45 @@
+import math
+import torch
+from torch import nn
+
+class MicroTransformer(nn.Module):
+    """Small seq2seq Transformer. Direction/context are represented in source tokens."""
+    def __init__(self, vocab_size, d_model=128, nhead=4, encoder_layers=2,
+                 decoder_layers=2, dim_feedforward=512, dropout=.1, max_len=256):
+        super().__init__()
+        self.d_model, self.max_len = d_model, max_len
+        self.embedding = nn.Embedding(vocab_size, d_model, padding_idx=0)
+        self.pos = nn.Embedding(max_len, d_model)
+        layer = nn.TransformerEncoderLayer(d_model, nhead, dim_feedforward, dropout,
+                                           batch_first=True, norm_first=True)
+        dec = nn.TransformerDecoderLayer(d_model, nhead, dim_feedforward, dropout,
+                                         batch_first=True, norm_first=True)
+        self.encoder = nn.TransformerEncoder(layer, encoder_layers)
+        self.decoder = nn.TransformerDecoder(dec, decoder_layers)
+        self.norm = nn.LayerNorm(d_model)
+        self.output = nn.Linear(d_model, vocab_size, bias=False)
+        self.output.weight = self.embedding.weight
+
+    def add_pos(self, x):
+        p = torch.arange(x.size(1), device=x.device).unsqueeze(0)
+        return x + self.pos(p.clamp(max=self.max_len - 1))
+
+    def forward(self, src, tgt, pad_id=0):
+        src_key = src.eq(pad_id)
+        tgt_key = tgt.eq(pad_id)
+        memory = self.encoder(self.add_pos(self.embedding(src) * math.sqrt(self.d_model)),
+                              src_key_padding_mask=src_key)
+        causal = nn.Transformer.generate_square_subsequent_mask(tgt.size(1), device=tgt.device)
+        out = self.decoder(self.add_pos(self.embedding(tgt) * math.sqrt(self.d_model)), memory,
+                           tgt_mask=causal, tgt_key_padding_mask=tgt_key,
+                           memory_key_padding_mask=src_key)
+        return self.output(self.norm(out))
+
+    @torch.no_grad()
+    def greedy(self, src, bos_id=2, eos_id=3, max_len=256, pad_id=0):
+        out = torch.full((src.size(0), 1), bos_id, dtype=torch.long, device=src.device)
+        for _ in range(max_len - 1):
+            nxt = self(src, out, pad_id).argmax(-1)[:, -1:]
+            out = torch.cat([out, nxt], 1)
+            if (nxt == eos_id).all(): break
+        return out
