@@ -25,7 +25,7 @@ class SentencePieceTokenizer:
 def train_sentencepiece(input_files, model_prefix, vocab_size=16000, model_type='unigram'):
     spm.SentencePieceTrainer.train(
         input=','.join(map(str, input_files)), model_prefix=str(model_prefix),
-        vocab_size=vocab_size, model_type=model_type,
+        vocab_size=max(vocab_size, 128), model_type=model_type,
         pad_id=0, unk_id=1, bos_id=2, eos_id=3,
         user_defined_symbols=['<ru2en>', '<en2ru>'],
         character_coverage=0.9995, hard_vocab_limit=False,
