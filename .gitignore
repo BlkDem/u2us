@@ -7,3 +7,4 @@ data/toy/
 *.pt
 *.onnx
 .DS_Store
+data/real_baseline/downloads/*.parquet
