@@ -1,0 +1,26 @@
+{
+  "data/real_baseline/ru_en/test.jsonl": {
+    "rows": 1935,
+    "sha256": "e86fbece6e579fbbb464f3f600f413b770b726fe9f9131131a16af491d8aeffd"
+  },
+  "data/real_baseline/ru_en/valid.jsonl": {
+    "rows": 1916,
+    "sha256": "4ded88b285c73bc05e3bdc300f22bd59bfcbce60083cf26ba0cd20ea54c1980a"
+  },
+  "data/real_baseline/ru_en/train.jsonl": {
+    "rows": 8000,
+    "sha256": "882d2800bb366aef8c90838effc8838c74e7042f3582bb2bc5d792cf2eb8c9f3"
+  },
+  "data/real_baseline/en_ru/test.jsonl": {
+    "rows": 1935,
+    "sha256": "fc803bba7d83a79274435a7d8ec78dc1eaf7d1c097bd51d18954f1f97abe642a"
+  },
+  "data/real_baseline/en_ru/valid.jsonl": {
+    "rows": 1916,
+    "sha256": "12036344204238458db8e9664c94330d64f02380005ea8c12969db9e46941aac"
+  },
+  "data/real_baseline/en_ru/train.jsonl": {
+    "rows": 8000,
+    "sha256": "3a08f1fdbfdde4cab426ec8ce64a6d9cb1694a4f13ceda768230f5809d621b54"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "priority": [
+    "test",
+    "valid",
+    "train"
+  ],
+  "splits": {
+    "test": {
+      "clean_unique_pairs": 1938,
+      "normalized_side_overlap_removed": 3,
+      "retained": 1935
+    },
+    "valid": {
+      "clean_unique_pairs": 1921,
+      "normalized_side_overlap_removed": 5,
+      "retained": 1916
+    },
+    "train": {
+      "clean_unique_pairs": 9552,
+      "normalized_side_overlap_removed": 255,
+      "retained": 8000
+    }
+  },
+  "remaining_normalized_side_overlap": 0
+}

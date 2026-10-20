@@ -1,0 +1,156 @@
+{
+  "status": "completed",
+  "production_approved": false,
+  "license": "unknown",
+  "config": {
+    "d_model": 64,
+    "nhead": 4,
+    "encoder_layers": 2,
+    "decoder_layers": 2,
+    "dim_feedforward": 128,
+    "dropout": 0.1,
+    "max_len": 192,
+    "init_mode": "controlled"
+  },
+  "training": {
+    "batch_size": 32,
+    "seed": 42,
+    "updates": 1500,
+    "lr": 0.001,
+    "label_smoothing": 0.1,
+    "scheduler": "constant",
+    "optimizer": "AdamW defaults weight_decay=.01",
+    "gradient_clip": 1.0,
+    "eval_every": 250
+  },
+  "data": {
+    "train": {
+      "rows": 8000,
+      "sha256": "882d2800bb366aef8c90838effc8838c74e7042f3582bb2bc5d792cf2eb8c9f3",
+      "joint_fit_fraction": 0.9955,
+      "src": {
+        "quantiles": {
+          "0.0": 5.0,
+          "0.5": 18.0,
+          "0.9": 66.0,
+          "0.95": 93.0,
+          "0.99": 153.01000000000022,
+          "1.0": 539.0
+        },
+        "truncated_rows": 31,
+        "truncated_tokens": 1842
+      },
+      "tgt": {
+        "quantiles": {
+          "0.0": 3.0,
+          "0.5": 16.0,
+          "0.9": 58.0,
+          "0.95": 81.0,
+          "0.99": 139.0,
+          "1.0": 495.0
+        },
+        "truncated_rows": 21,
+        "truncated_tokens": 1587
+      }
+    },
+    "valid": {
+      "rows": 1916,
+      "sha256": "4ded88b285c73bc05e3bdc300f22bd59bfcbce60083cf26ba0cd20ea54c1980a",
+      "joint_fit_fraction": 0.9937369519832986,
+      "src": {
+        "quantiles": {
+          "0.0": 7.0,
+          "0.5": 27.0,
+          "0.9": 92.0,
+          "0.95": 115.0,
+          "0.99": 169.0,
+          "1.0": 494.0
+        },
+        "truncated_rows": 10,
+        "truncated_tokens": 715
+      },
+      "tgt": {
+        "quantiles": {
+          "0.0": 5.0,
+          "0.5": 23.0,
+          "0.9": 78.0,
+          "0.95": 97.0,
+          "0.99": 156.69999999999982,
+          "1.0": 481.0
+        },
+        "truncated_rows": 7,
+        "truncated_tokens": 446
+      }
+    }
+  },
+  "tokenizer_sha256": "30829ddb1b560bda0e3e9532eff9964d69458ffab04aa12bfe20e4ca8739e0f9",
+  "batch_sha256": "4dcb3fd5ae7b32c0b93225b63804f4777001ed27208317376436c8d08b72e304",
+  "cohort_hashes": {
+    "diagnostic_short100": "50aa7de1432033da5ab7278db4ec34713a7dcc493ca61e56b46bfd7ee848b3f0",
+    "full_first100": "f6c907f8eb8068a48527025598845ed4967547db9f2fcff64d5585c247112b8f"
+  },
+  "initialization": {
+    "embedding_matches_diagnostic_B": true,
+    "seed": 424242,
+    "rng": "fork_rng preserves outer constructor RNG; dropout reset42; max_len changes position table and subsequent constructor draws, so other tensors/dropout shapes are not B parity"
+  },
+  "test_accessed": false,
+  "selected_step": 1500,
+  "best": {
+    "diagnostic_short100": {
+      "tokens": 2189,
+      "correct": 428,
+      "content_tokens": 1757,
+      "content_correct": 179,
+      "punctuation_tokens": 332,
+      "punctuation_correct": 154,
+      "ce": 4.280248705575105,
+      "smoothed_ce": 4.813844056040144,
+      "logit_std": 1.4168362458994306,
+      "token_accuracy": 0.19552306989492918,
+      "content_token_accuracy": 0.10187820147979511,
+      "punctuation_token_accuracy": 0.463855421686747,
+      "chrF": 9.225655410049079,
+      "BLEU": 0.28954339839250787,
+      "mean_generated_tokens": 38.52,
+      "mean_reference_tokens": 20.89,
+      "length_ratio": 1.8439444710387745,
+      "eos_rate": 0.98,
+      "immediate_eos_rate": 0.0,
+      "premature_eos_rate": 0.08,
+      "nonempty_rate": 1.0,
+      "repetition_rate": 0.42
+    },
+    "full_first100": {
+      "tokens": 3062,
+      "correct": 527,
+      "content_tokens": 2563,
+      "content_correct": 293,
+      "punctuation_tokens": 398,
+      "punctuation_correct": 141,
+      "ce": 4.460346274248219,
+      "smoothed_ce": 4.9690706339013255,
+      "logit_std": 1.4169273727555851,
+      "token_accuracy": 0.1721097322011757,
+      "content_token_accuracy": 0.11431915723761217,
+      "punctuation_token_accuracy": 0.3542713567839196,
+      "chrF": 12.068272971126506,
+      "BLEU": 0.25180744687416295,
+      "mean_generated_tokens": 60.87,
+      "mean_reference_tokens": 29.62,
+      "length_ratio": 2.0550303848750846,
+      "eos_rate": 0.88,
+      "immediate_eos_rate": 0.0,
+      "premature_eos_rate": 0.07,
+      "nonempty_rate": 1.0,
+      "repetition_rate": 0.41
+    }
+  },
+  "elapsed_seconds": 1219.7225760519996,
+  "best_sha256": "1ffd74685e2479e635057557f6964651ca91b304ef1161c1d6da25b0e9c55c65",
+  "limitations": [
+    "No test accessed; both cohorts are validation, not independent quality estimates.",
+    "Full train plus length/position-table and RNG-shape changes: differences from B cannot be attributed to one factor.",
+    "Single seed, license unknown, production not approved."
+  ]
+}

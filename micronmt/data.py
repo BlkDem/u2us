@@ -8,7 +8,11 @@ class ParallelDataset(Dataset):
         self.rows=[]; self.tok=tokenizer; self.max_len=max_len
         seen=set()
         for line in Path(path).read_text(encoding='utf8').splitlines():
-            try: r=json.loads(line); s,t=r['src'].strip(),r['tgt'].strip()
+            try:
+                r=json.loads(line)
+                if not isinstance(r, dict) or not all(isinstance(r.get(k), str) for k in ('src', 'tgt')):
+                    continue
+                s,t=r['src'].strip(),r['tgt'].strip()
             except (ValueError, KeyError): continue
             key=(s,t)
             if not s or not t or key in seen or len(s)>4000 or len(t)>4000: continue
@@ -19,6 +23,8 @@ class ParallelDataset(Dataset):
     def __getitem__(self,i): return self.rows[i][:2]
 
 def collate(batch, tokenizer, max_len=256, direction='ru2en'):
+    if direction not in ('ru2en', 'en2ru'):
+        raise ValueError('direction must be ru2en or en2ru')
     src, tgt=zip(*batch); tag='<ru2en>' if direction=='ru2en' else '<en2ru>'
     a=[tokenizer.encode(tag+' '+x, max_len) for x in src]
     b=[tokenizer.encode(x, max_len) for x in tgt]

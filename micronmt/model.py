@@ -5,7 +5,8 @@ from torch import nn
 class MicroTransformer(nn.Module):
     """Small seq2seq Transformer. Direction/context are represented in source tokens."""
     def __init__(self, vocab_size, d_model=128, nhead=4, encoder_layers=2,
-                 decoder_layers=2, dim_feedforward=512, dropout=.1, max_len=256):
+                 decoder_layers=2, dim_feedforward=512, dropout=.1, max_len=256,
+                 init_mode='controlled'):
         super().__init__()
         self.d_model, self.max_len = d_model, max_len
         self.embedding = nn.Embedding(vocab_size, d_model, padding_idx=0)
@@ -19,6 +20,14 @@ class MicroTransformer(nn.Module):
         self.norm = nn.LayerNorm(d_model)
         self.output = nn.Linear(d_model, vocab_size, bias=False)
         self.output.weight = self.embedding.weight
+        if init_mode not in ('controlled', 'legacy'):
+            raise ValueError('init_mode must be controlled or legacy')
+        if init_mode == 'controlled':
+            with torch.random.fork_rng():
+                torch.manual_seed(424242)
+                with torch.no_grad():
+                    self.embedding.weight.normal_(0, d_model ** -.5)
+                    self.embedding.weight[0].zero_()
 
     def add_pos(self, x):
         p = torch.arange(x.size(1), device=x.device).unsqueeze(0)
@@ -29,7 +38,7 @@ class MicroTransformer(nn.Module):
         tgt_key = tgt.eq(pad_id)
         memory = self.encoder(self.add_pos(self.embedding(src) * math.sqrt(self.d_model)),
                               src_key_padding_mask=src_key)
-        causal = nn.Transformer.generate_square_subsequent_mask(tgt.size(1), device=tgt.device)
+        causal = torch.triu(torch.ones(tgt.size(1), tgt.size(1), device=tgt.device, dtype=torch.bool), diagonal=1)
         out = self.decoder(self.add_pos(self.embedding(tgt) * math.sqrt(self.d_model)), memory,
                            tgt_mask=causal, tgt_key_padding_mask=tgt_key,
                            memory_key_padding_mask=src_key)

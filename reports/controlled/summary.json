@@ -1,0 +1,276 @@
+{
+  "status": "completed",
+  "production_approved": false,
+  "license": "unknown",
+  "budget": {
+    "epochs": 12,
+    "max_steps_per_direction": 3000,
+    "patience": 4,
+    "selection": "best fixed valid100 chrF",
+    "threads": 2,
+    "seed": 42
+  },
+  "repetition_definition": "8 identical consecutive characters OR a consecutive word bigram repeated three times",
+  "tokenizer_sha256": "30829ddb1b560bda0e3e9532eff9964d69458ffab04aa12bfe20e4ca8739e0f9",
+  "results": {
+    "ru_en": {
+      "data": {
+        "train": {
+          "sha256": "882d2800bb366aef8c90838effc8838c74e7042f3582bb2bc5d792cf2eb8c9f3",
+          "rows": 8000
+        },
+        "valid": {
+          "sha256": "4ded88b285c73bc05e3bdc300f22bd59bfcbce60083cf26ba0cd20ea54c1980a",
+          "rows": 1916
+        },
+        "test": {
+          "sha256": "e86fbece6e579fbbb464f3f600f413b770b726fe9f9131131a16af491d8aeffd",
+          "rows": 1935
+        }
+      },
+      "truncation": {
+        "train": {
+          "examples": 8000,
+          "src": {
+            "truncated": 830,
+            "fraction": 0.10375,
+            "max_untruncated_tokens": 539
+          },
+          "tgt": {
+            "truncated": 658,
+            "fraction": 0.08225,
+            "max_untruncated_tokens": 495
+          }
+        },
+        "valid": {
+          "examples": 1916,
+          "src": {
+            "truncated": 367,
+            "fraction": 0.19154488517745302,
+            "max_untruncated_tokens": 494
+          },
+          "tgt": {
+            "truncated": 281,
+            "fraction": 0.14665970772442588,
+            "max_untruncated_tokens": 481
+          }
+        }
+      },
+      "validation_cohort": {
+        "first_rows": 100,
+        "selection": "unchanged file order"
+      },
+      "config_sha256": "ed540615c2272afb317a92febefe47eac33e49c8138dffe283058f0dda0218bf",
+      "train_seconds": 276.57572861600056,
+      "selected_checkpoint": "runs/controlled_ru_en/best.pt",
+      "selected_step": 250,
+      "completed_steps": 1250,
+      "epochs_evaluated": 5,
+      "valid_loss": 6.489180636405945,
+      "selected_valid_chrf": 0.37812112914792356,
+      "decode_seconds": 1.4085851950003416,
+      "metrics": {
+        "examples": 100,
+        "BLEU": 0.00391930228846046,
+        "chrF": 0.35318897536667443,
+        "nonempty_rate": 1.0,
+        "repetition_rate": 0.01
+      },
+      "baseline_metrics": {
+        "examples": 100,
+        "BLEU": 0.0,
+        "chrF": 1.3903842732627478
+      },
+      "samples": [
+        {
+          "source": "Только бы не вылететь.",
+          "reference": "If you only stay there.",
+          "hypothesis": "."
+        },
+        {
+          "source": "И как ты только справляешься, папа, таская эти коробки взад-вперед целый день.",
+          "reference": "I don't know how you do it, Pop, carrying these boxes around every day.",
+          "hypothesis": ",."
+        },
+        {
+          "source": "Возможно, у нас есть небольшое преимущество в переговорах.",
+          "reference": "We might have a slight edge in mediation.",
+          "hypothesis": ",."
+        },
+        {
+          "source": "Сколько времени вы будете делать то, что ему нужно?",
+          "reference": "How long is it going to take you to get him what he needs?",
+          "hypothesis": ",s."
+        },
+        {
+          "source": "1 апреля Президент НКР Бако Саакян принял начальника Генштаба Вооруженных сил Республики Армения генерал-полковника Юрия Хачатурова.",
+          "reference": "On 1 April President of the Nagorno Karabagh Republic Bako Sahakyan met head of the General Staff of the Republic of Armenia's Armed forces colonel-general Yuri Khachaturov.",
+          "hypothesis": ",."
+        },
+        {
+          "source": "Г-н Приснер также упомянул, что система электронного правосудия не только позволила улучшить процесс ведения дел, но также способствует значительному упорядочению процедур.",
+          "reference": "Mr Priesner also noted that the E-justice management system has not only improved case management, but has also led to a significant streamlining in procedures.",
+          "hypothesis": ",."
+        },
+        {
+          "source": "- Неплохо, да.",
+          "reference": "You don't like chicken noodle soup?",
+          "hypothesis": ",."
+        },
+        {
+          "source": "Posted: 15 Dec 2006, 00:07",
+          "reference": "Posted: 14 May 2005, 20:31",
+          "hypothesis": ",."
+        },
+        {
+          "source": "И на минутку я подумал, что за ним могут следить.",
+          "reference": "Now, for a minute, I thought maybe he was being tailed.",
+          "hypothesis": "."
+        },
+        {
+          "source": "«: 11 Октябрь 2011, 17:15:34»",
+          "reference": "« : 26 Октябрь 2017, 06:50:24 »",
+          "hypothesis": ",."
+        }
+      ]
+    },
+    "en_ru": {
+      "data": {
+        "train": {
+          "sha256": "3a08f1fdbfdde4cab426ec8ce64a6d9cb1694a4f13ceda768230f5809d621b54",
+          "rows": 8000
+        },
+        "valid": {
+          "sha256": "12036344204238458db8e9664c94330d64f02380005ea8c12969db9e46941aac",
+          "rows": 1916
+        },
+        "test": {
+          "sha256": "fc803bba7d83a79274435a7d8ec78dc1eaf7d1c097bd51d18954f1f97abe642a",
+          "rows": 1935
+        }
+      },
+      "truncation": {
+        "train": {
+          "examples": 8000,
+          "src": {
+            "truncated": 700,
+            "fraction": 0.0875,
+            "max_untruncated_tokens": 497
+          },
+          "tgt": {
+            "truncated": 797,
+            "fraction": 0.099625,
+            "max_untruncated_tokens": 537
+          }
+        },
+        "valid": {
+          "examples": 1916,
+          "src": {
+            "truncated": 304,
+            "fraction": 0.15866388308977036,
+            "max_untruncated_tokens": 483
+          },
+          "tgt": {
+            "truncated": 351,
+            "fraction": 0.18319415448851775,
+            "max_untruncated_tokens": 492
+          }
+        }
+      },
+      "validation_cohort": {
+        "first_rows": 100,
+        "selection": "unchanged file order"
+      },
+      "config_sha256": "6af8610f8159ffeef5ae1e7efcf729aebc1013617c37af5de610a81beaece565",
+      "train_seconds": 255.16299798900036,
+      "selected_checkpoint": "runs/controlled_en_ru/best.pt",
+      "selected_step": 500,
+      "completed_steps": 1500,
+      "epochs_evaluated": 6,
+      "valid_loss": 6.287804698944091,
+      "selected_valid_chrf": 0.6533263645187786,
+      "decode_seconds": 3.4564722320010333,
+      "metrics": {
+        "examples": 100,
+        "BLEU": 0.0,
+        "chrF": 0.6074157540758477,
+        "nonempty_rate": 0.96,
+        "repetition_rate": 0.1
+      },
+      "baseline_metrics": {
+        "examples": 100,
+        "BLEU": 0.01626285047179945,
+        "chrF": 0.15634400430638673
+      },
+      "samples": [
+        {
+          "source": "If you only stay there.",
+          "reference": "Только бы не вылететь.",
+          "hypothesis": "- ."
+        },
+        {
+          "source": "I don't know how you do it, Pop, carrying these boxes around every day.",
+          "reference": "И как ты только справляешься, папа, таская эти коробки взад-вперед целый день.",
+          "hypothesis": "- ."
+        },
+        {
+          "source": "We might have a slight edge in mediation.",
+          "reference": "Возможно, у нас есть небольшое преимущество в переговорах.",
+          "hypothesis": "- ."
+        },
+        {
+          "source": "How long is it going to take you to get him what he needs?",
+          "reference": "Сколько времени вы будете делать то, что ему нужно?",
+          "hypothesis": "-"
+        },
+        {
+          "source": "On 1 April President of the Nagorno Karabagh Republic Bako Sahakyan met head of the General Staff of the Republic of Armenia's Armed forces colonel-general Yuri Khachaturov.",
+          "reference": "1 апреля Президент НКР Бако Саакян принял начальника Генштаба Вооруженных сил Республики Армения генерал-полковника Юрия Хачатурова.",
+          "hypothesis": "Я"
+        },
+        {
+          "source": "Mr Priesner also noted that the E-justice management system has not only improved case management, but has also led to a significant streamlining in procedures.",
+          "reference": "Г-н Приснер также упомянул, что система электронного правосудия не только позволила улучшить процесс ведения дел, но также способствует значительному упорядочению процедур.",
+          "hypothesis": "-    ."
+        },
+        {
+          "source": "You don't like chicken noodle soup?",
+          "reference": "- Неплохо, да.",
+          "hypothesis": "- ?"
+        },
+        {
+          "source": "Posted: 14 May 2005, 20:31",
+          "reference": "Posted: 15 Dec 2006, 00:07",
+          "hypothesis": "Я"
+        },
+        {
+          "source": "Now, for a minute, I thought maybe he was being tailed.",
+          "reference": "И на минутку я подумал, что за ним могут следить.",
+          "hypothesis": "- ."
+        },
+        {
+          "source": "« : 26 Октябрь 2017, 06:50:24 »",
+          "reference": "«: 11 Октябрь 2011, 17:15:34»",
+          "hypothesis": "Я"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Unknown source rights; not cleared for production.",
+    "Test is the first fixed 100 baseline examples, not full test.",
+    "Overfit memorization is not generalization evidence.",
+    "Greedy max_len64; validation loss is mean batch label-smoothed loss."
+  ],
+  "elapsed_seconds": 537.5088978550011,
+  "peak_child_rss_kib": 608920,
+  "peak_driver_rss_kib": 605860,
+  "python": "/usr/bin/python",
+  "verification": {
+    "command": "python -m unittest discover -s tests -v",
+    "status": "passed",
+    "tests_run": 43,
+    "elapsed_seconds": 162.741,
+    "note": "Includes repeated inherited/imported training cases; executed concurrently with training."
+  }
+}

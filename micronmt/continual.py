@@ -16,9 +16,9 @@ def merge_replay(new_path, replay_path, out, replay_ratio=.25, seed=42):
  Path(out).parent.mkdir(parents=True,exist_ok=True); Path(out).write_text('\n'.join(rows)+'\n',encoding='utf8')
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--checkpoint',required=True);p.add_argument('--data',required=True);p.add_argument('--regression',required=True);p.add_argument('--out',required=True);p.add_argument('--replay');p.add_argument('--epochs',type=int,default=3);p.add_argument('--replay-ratio',type=float,default=.25);p.add_argument('--lr',type=float,default=1e-4);a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--checkpoint',required=True);p.add_argument('--data',required=True);p.add_argument('--regression',required=True);p.add_argument('--out',required=True);p.add_argument('--replay');p.add_argument('--epochs',type=int,default=3);p.add_argument('--replay-ratio',type=float,default=.25);p.add_argument('--lr',type=float,default=1e-4);p.add_argument('--direction',choices=('ru2en','en2ru'),default='ru2en');a=p.parse_args()
  work=Path(a.out).with_suffix('.replay.jsonl'); merge_replay(a.data,a.replay,work,a.replay_ratio) if a.replay else shutil.copyfile(a.data,work)
- model,tok,meta=load_checkpoint(a.checkpoint); ds=ParallelDataset(str(work),tok,meta['config']['max_len']); dl=DataLoader(ds,16,shuffle=True,collate_fn=lambda x:collate(x,tok,meta['config']['max_len']))
+ model,tok,meta=load_checkpoint(a.checkpoint); ds=ParallelDataset(str(work),tok,meta['config']['max_len'],direction=a.direction); dl=DataLoader(ds,16,shuffle=True,collate_fn=lambda x:collate(x,tok,meta['config']['max_len'],direction=a.direction))
  opt=torch.optim.AdamW(model.parameters(),lr=a.lr); ce=torch.nn.CrossEntropyLoss(ignore_index=tok.pad_id); model.train()
  for ep in range(a.epochs):
   total=0

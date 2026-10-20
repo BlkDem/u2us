@@ -11,6 +11,9 @@ class SimpleTokenizer:
             else:
                 for x in vocab:
                     if x not in base: base[x]=len(base)
+        specials={'<pad>':0,'<unk>':1,'<bos>':2,'<eos>':3,'<ru2en>':4,'<en2ru>':5}
+        if any(base[k] != v for k,v in specials.items()) or sorted(base.values()) != list(range(len(base))):
+            raise ValueError('Vocabulary must have contiguous unique IDs and preserve special token IDs')
         self.vocab=base
         self.rev={v:k for k,v in self.vocab.items()}
 

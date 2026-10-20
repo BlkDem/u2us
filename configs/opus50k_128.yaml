@@ -1,0 +1,16 @@
+name: opus50k_128
+seed: 42
+vocab_size: 8000
+d_model: 128
+nhead: 4
+encoder_layers: 4
+decoder_layers: 4
+dim_feedforward: 512
+dropout: 0.1
+max_len: 128
+batch_size: 32
+epochs: 3
+lr: 0.0005
+label_smoothing: 0.1
+init_mode: controlled
+run_dir: runs/opus50k_128_ru_en

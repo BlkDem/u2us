@@ -1,0 +1,39 @@
+{
+  "results": {
+    "train": {
+      "examples": 100,
+      "schema_invalid": 0,
+      "heuristic_flagged": 3,
+      "src": {
+        "unknown_rate": 0.0005405405405405405,
+        "normalized_roundtrip_discrepancies": 1,
+        "eos_preserved": 100,
+        "truncated": 9
+      },
+      "tgt": {
+        "unknown_rate": 0.000625,
+        "normalized_roundtrip_discrepancies": 1,
+        "eos_preserved": 100,
+        "truncated": 5
+      }
+    },
+    "valid": {
+      "examples": 100,
+      "schema_invalid": 0,
+      "heuristic_flagged": 10,
+      "src": {
+        "unknown_rate": 0.0,
+        "normalized_roundtrip_discrepancies": 0,
+        "eos_preserved": 100,
+        "truncated": 16
+      },
+      "tgt": {
+        "unknown_rate": 0.00033760972316002703,
+        "normalized_roundtrip_discrepancies": 1,
+        "eos_preserved": 100,
+        "truncated": 14
+      }
+    }
+  },
+  "notice": "Automated heuristics only; these samples are saved for future human review, not reviewed. Direction is RU→EN by schema and script heuristics; semantic alignment is not established. EOS is forcibly appended by encode, including when truncated."
+}

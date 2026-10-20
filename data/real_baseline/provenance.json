@@ -1,0 +1,31 @@
+{
+  "dataset": "Helsinki-NLP/opus-100",
+  "revision": "805090dc28bf78897da9641cdf08b61287580df9",
+  "license": [
+    "unknown"
+  ],
+  "license_caution": "Unknown/mixed source rights; no legal guarantee or redistribution clearance.",
+  "files": {
+    "train": {
+      "url": "https://huggingface.co/datasets/Helsinki-NLP/opus-100/resolve/805090dc28bf78897da9641cdf08b61287580df9/en-ru/train-00000-of-00001.parquet",
+      "sha256": "9b0b9580abef16fa28d74d2eeae359844e5ad372ebbfb6f8c8560add85aa69de",
+      "download_bytes": 123840514,
+      "selected_rows": 10000,
+      "raw_sha256": "a910e244a2f6d8786f0ff4e379ab790dcd84c827bdb25fab01461bb0b85612dc"
+    },
+    "validation": {
+      "url": "https://huggingface.co/datasets/Helsinki-NLP/opus-100/resolve/805090dc28bf78897da9641cdf08b61287580df9/en-ru/validation-00000-of-00001.parquet",
+      "sha256": "0ecd5bc65260bc543a523470cf982a03e9a7109fb8d3c9d32f7eef97ae288504",
+      "download_bytes": 310090,
+      "selected_rows": 2000,
+      "raw_sha256": "b94348b6355130a843ca3f345b1d7afc7fa5d6a557895328f268b6b661126293"
+    },
+    "test": {
+      "url": "https://huggingface.co/datasets/Helsinki-NLP/opus-100/resolve/805090dc28bf78897da9641cdf08b61287580df9/en-ru/test-00000-of-00001.parquet",
+      "sha256": "96bf7751ebd69615e1377a06cf49bb7d2d153124c77764620de435d0afc71935",
+      "download_bytes": 310212,
+      "selected_rows": 2000,
+      "raw_sha256": "64730fcda8455c398133f4d62e1f544bc2c76e8e27432fe9599d57f0baf0f195"
+    }
+  }
+}

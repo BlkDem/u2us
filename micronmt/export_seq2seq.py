@@ -21,9 +21,14 @@ class DecoderWrapper(nn.Module):
 def main():
  p=argparse.ArgumentParser();p.add_argument('--checkpoint',required=True);p.add_argument('--out-dir',required=True);p.add_argument('--sequence-len',type=int,default=128);a=p.parse_args()
  m,tok,q=load_checkpoint(a.checkpoint); out=Path(a.out_dir);out.mkdir(parents=True,exist_ok=True); n=a.sequence_len
+ if not 2 <= n <= m.max_len: p.error('sequence-len must be between 2 and model max_len')
  src=torch.ones(1,n,dtype=torch.long); tgt=torch.ones(1,n,dtype=torch.long); memory=EncoderWrapper(m)(src)
  torch.onnx.export(EncoderWrapper(m),(src,),out/'encoder.onnx',input_names=['src'],output_names=['memory'],opset_version=17,dynamo=False)
  torch.onnx.export(DecoderWrapper(m),(memory,tgt,src),out/'decoder.onnx',input_names=['memory','tgt','src'],output_names=['logits'],opset_version=17,dynamo=False)
- (out/'metadata.json').write_text(json.dumps({'format':'split-seq2seq','sequence_len':n,'checkpoint':str(a.checkpoint),'tokenizer':q.get('tokenizer')},ensure_ascii=False,indent=2),encoding='utf8')
+ from .checkpoint import tokenizer_metadata
+ meta=tokenizer_metadata(tok)
+ if meta['type']=='sentencepiece':
+  (out/'tokenizer.model').write_bytes(meta.pop('model_proto')); meta['model_file']='tokenizer.model'
+ (out/'metadata.json').write_text(json.dumps({'format':'split-seq2seq','sequence_len':n,'checkpoint':str(a.checkpoint),'tokenizer':meta},ensure_ascii=False,indent=2),encoding='utf8')
  print(out)
 if __name__=='__main__':main()

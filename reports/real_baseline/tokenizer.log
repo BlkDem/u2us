@@ -1,0 +1,109 @@
+Traceback (most recent call last):
+  File "/home/maksim/projects/u2us/scripts/train_tokenizer.py", line 3, in <module>
+    from micronmt.sp_tokenizer import train_sentencepiece
+  File "/home/maksim/projects/u2us/micronmt/__init__.py", line 2, in <module>
+    from .model import MicroTransformer
+  File "/home/maksim/projects/u2us/micronmt/model.py", line 2, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1792405714.247525  174856 sentencepiece_trainer.cc:105] Starts training with : 
+trainer_spec {
+  input: /tmp/tmpml9eqctf/0.txt
+  input_format: 
+  model_prefix: data/tokenizer/real_baseline/shared
+  model_type: UNIGRAM
+  vocab_size: 2000
+  self_test_sample_size: 0
+  character_coverage: 0.9995
+  input_sentence_size: 0
+  shuffle_input_sentence: 1
+  seed_sentencepiece_size: 1000000
+  shrinking_factor: 0.75
+  max_sentence_length: 4192
+  num_threads: 16
+  num_sub_iterations: 2
+  max_sentencepiece_length: 16
+  split_by_unicode_script: 1
+  split_by_number: 1
+  split_by_whitespace: 1
+  split_digits: 0
+  pretokenization_delimiter: 
+  treat_whitespace_as_suffix: 0
+  allow_whitespace_only_pieces: 0
+  user_defined_symbols: <ru2en>
+  user_defined_symbols: <en2ru>
+  required_chars: 
+  byte_fallback: 0
+  vocabulary_output_piece_score: 1
+  train_extremely_large_corpus: 0
+  seed_sentencepieces_file: 
+  hard_vocab_limit: 0
+  use_all_vocab: 0
+  unk_id: 1
+  bos_id: 2
+  eos_id: 3
+  pad_id: 0
+  unk_piece: <unk>
+  bos_piece: <s>
+  eos_piece: </s>
+  pad_piece: <pad>
+  unk_surface:  ⁇ 
+  enable_differential_privacy: 0
+  differential_privacy_noise_level: 0
+  differential_privacy_clipping_threshold: 0
+}
+normalizer_spec {
+  name: nmt_nfkc
+  add_dummy_prefix: 1
+  remove_extra_whitespaces: 1
+  escape_whitespaces: 1
+  normalization_rule_tsv: 
+}
+denormalizer_spec {}
+I0000 00:00:1792405714.247780  174856 trainer_interface.cc:364] SentenceIterator is not specified. Using MultiFileSentenceIterator.
+I0000 00:00:1792405714.247825  174856 trainer_interface.cc:193] Loading corpus: /tmp/tmpml9eqctf/0.txt
+I0000 00:00:1792405714.252232  174856 trainer_interface.cc:422] Loaded all 16000 sentences
+I0000 00:00:1792405714.252467  174856 trainer_interface.cc:440] Adding meta_piece: <pad>
+I0000 00:00:1792405714.252538  174856 trainer_interface.cc:440] Adding meta_piece: <unk>
+I0000 00:00:1792405714.252555  174856 trainer_interface.cc:440] Adding meta_piece: <s>
+I0000 00:00:1792405714.252565  174856 trainer_interface.cc:440] Adding meta_piece: </s>
+I0000 00:00:1792405714.252572  174856 trainer_interface.cc:440] Adding meta_piece: <ru2en>
+I0000 00:00:1792405714.252580  174856 trainer_interface.cc:440] Adding meta_piece: <en2ru>
+I0000 00:00:1792405714.252611  174856 trainer_interface.cc:445] Normalizing sentences...
+I0000 00:00:1792405714.294947  174856 trainer_interface.cc:555] all chars count=989764
+I0000 00:00:1792405714.295169  174856 trainer_interface.cc:566] Done: 99.9501% characters are covered.
+I0000 00:00:1792405714.295252  174856 trainer_interface.cc:578] Alphabet size=154
+I0000 00:00:1792405714.295271  174856 trainer_interface.cc:579] Final character coverage=0.999501
+I0000 00:00:1792405714.344573  174856 trainer_interface.cc:609] Done! preprocessed 16000 sentences.
+I0000 00:00:1792405714.444248  174856 unigram_model_trainer.cc:297] Making suffix array...
+I0000 00:00:1792405714.627549  174856 unigram_model_trainer.cc:301] Extracting frequent sub strings... node_num=494442
+I0000 00:00:1792405715.199505  174856 unigram_model_trainer.cc:354] Initialized 111434 seed sentencepieces
+I0000 00:00:1792405715.370482  174856 trainer_interface.cc:615] Tokenizing input sentences with whitespace: 16000
+I0000 00:00:1792405715.415655  174856 trainer_interface.cc:626] Done! 45388
+I0000 00:00:1792405715.418628  174856 unigram_model_trainer.cc:628] Using 45388 sentences for EM training
+I0000 00:00:1792405715.576581  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=32765 obj=13.8287 num_tokens=220233 num_tokens/piece=6.72159
+I0000 00:00:1792405715.678148  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=30375 obj=11.4413 num_tokens=221077 num_tokens/piece=7.27826
+I0000 00:00:1792405715.991216  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=22769 obj=11.6744 num_tokens=229693 num_tokens/piece=10.088
+I0000 00:00:1792405716.072408  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=22743 obj=11.5723 num_tokens=229715 num_tokens/piece=10.1005
+I0000 00:00:1792405716.336460  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=17056 obj=12.0648 num_tokens=242634 num_tokens/piece=14.2257
+I0000 00:00:1792405716.412168  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=17052 obj=11.9431 num_tokens=242673 num_tokens/piece=14.2314
+I0000 00:00:1792405716.611657  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=12789 obj=12.5523 num_tokens=259130 num_tokens/piece=20.2619
+I0000 00:00:1792405716.677932  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=12789 obj=12.434 num_tokens=259130 num_tokens/piece=20.2619
+I0000 00:00:1792405716.881173  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=9591 obj=13.0643 num_tokens=276586 num_tokens/piece=28.8381
+I0000 00:00:1792405716.944774  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=9590 obj=12.9637 num_tokens=276590 num_tokens/piece=28.8415
+I0000 00:00:1792405717.088394  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=7192 obj=13.6177 num_tokens=295217 num_tokens/piece=41.048
+I0000 00:00:1792405717.137336  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=7192 obj=13.5225 num_tokens=295207 num_tokens/piece=41.0466
+I0000 00:00:1792405717.286009  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=5394 obj=14.1897 num_tokens=314380 num_tokens/piece=58.2833
+I0000 00:00:1792405717.336942  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=5393 obj=14.1066 num_tokens=314386 num_tokens/piece=58.2952
+I0000 00:00:1792405717.448344  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=4044 obj=14.7914 num_tokens=334718 num_tokens/piece=82.769
+I0000 00:00:1792405717.497085  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=4044 obj=14.7002 num_tokens=334722 num_tokens/piece=82.77
+I0000 00:00:1792405717.597167  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=3033 obj=15.447 num_tokens=357898 num_tokens/piece=118.001
+I0000 00:00:1792405717.645435  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=3033 obj=15.3408 num_tokens=357913 num_tokens/piece=118.006
+I0000 00:00:1792405717.741370  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=2274 obj=16.1039 num_tokens=382632 num_tokens/piece=168.264
+I0000 00:00:1792405717.785690  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=2274 obj=15.9893 num_tokens=382673 num_tokens/piece=168.282
+I0000 00:00:1792405717.879824  174856 unigram_model_trainer.cc:644] EM sub_iter=0 size=2200 obj=16.0713 num_tokens=385985 num_tokens/piece=175.448
+I0000 00:00:1792405717.925085  174856 unigram_model_trainer.cc:644] EM sub_iter=1 size=2200 obj=16.0555 num_tokens=385989 num_tokens/piece=175.45
+I0000 00:00:1792405717.926631  174856 trainer_interface.cc:702] Saving model: data/tokenizer/real_baseline/shared.model
+I0000 00:00:1792405717.928495  174856 trainer_interface.cc:714] Saving vocabs: data/tokenizer/real_baseline/shared.vocab
+data/tokenizer/real_baseline/shared.model

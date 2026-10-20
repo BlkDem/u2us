@@ -7,8 +7,15 @@ class SentencePieceTokenizer:
     bos_id = 2
     eos_id = 3
 
-    def __init__(self, model_file):
-        self.processor = spm.SentencePieceProcessor(model_file=str(model_file))
+    def __init__(self, model_file=None, model_proto=None):
+        self.processor = (spm.SentencePieceProcessor(model_proto=model_proto) if model_proto is not None
+                          else spm.SentencePieceProcessor(model_file=str(model_file)))
+        actual = (self.processor.pad_id(), self.processor.unk_id(), self.processor.bos_id(), self.processor.eos_id())
+        if actual != (0, 1, 2, 3):
+            raise ValueError('SentencePiece requires pad/unk/bos/eos IDs 0/1/2/3')
+        for tag in ('<ru2en>', '<en2ru>'):
+            if self.processor.piece_to_id(tag) == self.unk_id:
+                raise ValueError(f'SentencePiece is missing direction token {tag}')
 
     @property
     def vocab_size(self):

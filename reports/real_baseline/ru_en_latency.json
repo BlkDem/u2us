@@ -1,0 +1,8 @@
+{
+  "checkpoint": "runs/baseline_ru_en/last.pt",
+  "params": 299648,
+  "file_bytes": 4080168,
+  "latency_ms": 228.3368089999082,
+  "sentences_per_second": 4.3794953795662535,
+  "torch_threads": 2
+}

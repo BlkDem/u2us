@@ -1,0 +1,9 @@
+{
+  "format": "split-seq2seq",
+  "sequence_len": 128,
+  "checkpoint": "runs/realbaseline_128x2_80c_ru_en/best.pt",
+  "tokenizer": {
+    "type": "sentencepiece",
+    "model_file": "tokenizer.model"
+  }
+}

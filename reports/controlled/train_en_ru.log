@@ -1,0 +1,9 @@
+/home/maksim/projects/u2us/micronmt/model.py:17: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, encoder_layers)
+epoch=1 train_loss=12.6404 valid_loss=6.6899 valid_chrf=0.061
+epoch=2 train_loss=6.4106 valid_loss=6.2878 valid_chrf=0.653
+epoch=3 train_loss=6.1622 valid_loss=6.1917 valid_chrf=0.330
+epoch=4 train_loss=6.0558 valid_loss=6.1451 valid_chrf=0.279
+epoch=5 train_loss=5.9765 valid_loss=6.1052 valid_chrf=0.537
+epoch=6 train_loss=5.9226 valid_loss=6.0798 valid_chrf=0.443
+early_stop=true

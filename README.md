@@ -41,6 +41,34 @@ python -m micronmt.infer --checkpoint runs/tiny/best.pt --text 'Я решил о
 - `micronmt/evaluate.py` — BLEU/chrF and optional COMET JSON report.
 - `micronmt/benchmark.py` — CPU latency, throughput, parameter count and checkpoint size.
 
+## Проверки и ограничения
+
+```bash
+python -m unittest discover -s tests -v
+# pytest также запускает исходные function-style smoke tests
+pip install -e '.[train,dev]'
+python -m pytest -q
+```
+
+Новые checkpoints содержат tokenizer внутри файла. Для split ONNX используйте
+`python -m micronmt.export_seq2seq --checkpoint runs/tiny/best.pt --out-dir artifacts/tiny-onnx`;
+затем `python -m micronmt.onnx_translate --model-dir artifacts/tiny-onnx --text 'Hello' --source en`
+не требует PyTorch checkpoint. Длина берётся из metadata экспорта.
+
+`--resume` продолжает сохранённый прогресс, а `epochs` задаёт общее число эпох,
+не число дополнительных. Для продолжения завершённого обучения увеличьте `epochs`.
+`--max-steps` задаёт общий предел обработанных microbatches, включая сохранённые.
+Старые LoRA-адаптеры с attention `out_proj` необходимо переобучить.
+
+Regression gate требует явной политики, например:
+
+```bash
+python scripts/regression.py --checkpoint runs/tiny/best.pt --data data/regression.jsonl --min-exact-match 0.8
+```
+
+Порог выше — пример, не подтверждённая норма качества. Exact match не заменяет
+BLEU/chrF/COMET и human evaluation. Текущие ограничения и требования к релизу — в `AUDIT.md`.
+
 ## План экспериментов
 
 | Model | Params | FP32 | INT8 | RAM | Speed | BLEU | chrF | COMET |

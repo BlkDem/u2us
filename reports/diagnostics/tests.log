@@ -1,0 +1,220 @@
+test_direction (test_checkpoint.CheckpointTests.test_direction) ... ok
+test_invalid_rows (test_checkpoint.CheckpointTests.test_invalid_rows) ... ok
+test_invalid_vocabulary (test_checkpoint.CheckpointTests.test_invalid_vocabulary) ... ok
+test_sentencepiece_embedded (test_checkpoint.CheckpointTests.test_sentencepiece_embedded) ... WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1792408184.004009  220864 sentencepiece_trainer.cc:105] Starts training with : 
+trainer_spec {
+  input: /tmp/tmppo5tb4fs/corpus.txt
+  input_format: 
+  model_prefix: /tmp/tmppo5tb4fs/tokenizer
+  model_type: UNIGRAM
+  vocab_size: 128
+  self_test_sample_size: 0
+  character_coverage: 0.9995
+  input_sentence_size: 0
+  shuffle_input_sentence: 1
+  seed_sentencepiece_size: 1000000
+  shrinking_factor: 0.75
+  max_sentence_length: 4192
+  num_threads: 16
+  num_sub_iterations: 2
+  max_sentencepiece_length: 16
+  split_by_unicode_script: 1
+  split_by_number: 1
+  split_by_whitespace: 1
+  split_digits: 0
+  pretokenization_delimiter: 
+  treat_whitespace_as_suffix: 0
+  allow_whitespace_only_pieces: 0
+  user_defined_symbols: <ru2en>
+  user_defined_symbols: <en2ru>
+  required_chars: 
+  byte_fallback: 0
+  vocabulary_output_piece_score: 1
+  train_extremely_large_corpus: 0
+  seed_sentencepieces_file: 
+  hard_vocab_limit: 0
+  use_all_vocab: 0
+  unk_id: 1
+  bos_id: 2
+  eos_id: 3
+  pad_id: 0
+  unk_piece: <unk>
+  bos_piece: <s>
+  eos_piece: </s>
+  pad_piece: <pad>
+  unk_surface:  ⁇ 
+  enable_differential_privacy: 0
+  differential_privacy_noise_level: 0
+  differential_privacy_clipping_threshold: 0
+}
+normalizer_spec {
+  name: nmt_nfkc
+  add_dummy_prefix: 1
+  remove_extra_whitespaces: 1
+  escape_whitespaces: 1
+  normalization_rule_tsv: 
+}
+denormalizer_spec {}
+I0000 00:00:1792408184.004976  220864 trainer_interface.cc:364] SentenceIterator is not specified. Using MultiFileSentenceIterator.
+I0000 00:00:1792408184.005144  220864 trainer_interface.cc:193] Loading corpus: /tmp/tmppo5tb4fs/corpus.txt
+I0000 00:00:1792408184.005200  220864 trainer_interface.cc:422] Loaded all 2 sentences
+I0000 00:00:1792408184.005361  220864 trainer_interface.cc:440] Adding meta_piece: <pad>
+I0000 00:00:1792408184.005438  220864 trainer_interface.cc:440] Adding meta_piece: <unk>
+I0000 00:00:1792408184.005453  220864 trainer_interface.cc:440] Adding meta_piece: <s>
+I0000 00:00:1792408184.005462  220864 trainer_interface.cc:440] Adding meta_piece: </s>
+I0000 00:00:1792408184.005469  220864 trainer_interface.cc:440] Adding meta_piece: <ru2en>
+I0000 00:00:1792408184.005476  220864 trainer_interface.cc:440] Adding meta_piece: <en2ru>
+I0000 00:00:1792408184.005543  220864 trainer_interface.cc:445] Normalizing sentences...
+I0000 00:00:1792408184.011631  220864 trainer_interface.cc:555] all chars count=48
+I0000 00:00:1792408184.011766  220864 trainer_interface.cc:578] Alphabet size=21
+I0000 00:00:1792408184.011782  220864 trainer_interface.cc:579] Final character coverage=1
+I0000 00:00:1792408184.011810  220864 trainer_interface.cc:609] Done! preprocessed 2 sentences.
+I0000 00:00:1792408184.011866  220864 unigram_model_trainer.cc:297] Making suffix array...
+I0000 00:00:1792408184.029101  220864 unigram_model_trainer.cc:301] Extracting frequent sub strings... node_num=23
+I0000 00:00:1792408184.034720  220864 unigram_model_trainer.cc:354] Initialized 32 seed sentencepieces
+I0000 00:00:1792408184.034996  220864 trainer_interface.cc:615] Tokenizing input sentences with whitespace: 2
+I0000 00:00:1792408184.035029  220864 trainer_interface.cc:626] Done! 6
+I0000 00:00:1792408184.035077  220864 unigram_model_trainer.cc:628] Using 6 sentences for EM training
+I0000 00:00:1792408184.038287  220864 unigram_model_trainer.cc:644] EM sub_iter=0 size=18 obj=12.4559 num_tokens=26 num_tokens/piece=1.44444
+I0000 00:00:1792408184.041299  220864 unigram_model_trainer.cc:644] EM sub_iter=1 size=18 obj=10.2403 num_tokens=26 num_tokens/piece=1.44444
+I0000 00:00:1792408184.041459  220864 trainer_interface.cc:702] Saving model: /tmp/tmppo5tb4fs/tokenizer.model
+I0000 00:00:1792408184.041964  220864 trainer_interface.cc:714] Saving vocabs: /tmp/tmppo5tb4fs/tokenizer.vocab
+ok
+test_simple_roundtrip (test_checkpoint.CheckpointTests.test_simple_roundtrip) ... /home/maksim/projects/u2us/micronmt/model.py:17: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, encoder_layers)
+ok
+test_configs (test_controlled.ControlledTests.test_configs) ... ok
+test_repetition (test_controlled.ControlledTests.test_repetition) ... ok
+test_truncation (test_controlled.ControlledTests.test_truncation) ... ok
+test_cli_stop_resume_and_partial_accumulation (test_controlled.HistoryTests.test_cli_stop_resume_and_partial_accumulation) ... ok
+test_direction_in_train_and_validation (test_controlled.HistoryTests.test_direction_in_train_and_validation) ... /home/maksim/projects/u2us/micronmt/model.py:17: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, encoder_layers)
+ok
+test_epoch_resume_matches_uninterrupted (test_controlled.HistoryTests.test_epoch_resume_matches_uninterrupted) ... ok
+test_history_cli (test_controlled.HistoryTests.test_history_cli) ... ok
+test_reject_invalid_arguments_and_empty_data (test_controlled.HistoryTests.test_reject_invalid_arguments_and_empty_data) ... ok
+test_teacher_rejects_same_size_different_vocabulary (test_controlled.HistoryTests.test_teacher_rejects_same_size_different_vocabulary) ... ok
+test_cli_stop_resume_and_partial_accumulation (tests.test_training.TrainingTests.test_cli_stop_resume_and_partial_accumulation) ... ok
+test_direction_in_train_and_validation (tests.test_training.TrainingTests.test_direction_in_train_and_validation) ... ok
+test_epoch_resume_matches_uninterrupted (tests.test_training.TrainingTests.test_epoch_resume_matches_uninterrupted) ... ok
+test_reject_invalid_arguments_and_empty_data (tests.test_training.TrainingTests.test_reject_invalid_arguments_and_empty_data) ... ok
+test_teacher_rejects_same_size_different_vocabulary (tests.test_training.TrainingTests.test_teacher_rejects_same_size_different_vocabulary) ... ok
+test_controlled_init_tying_pad_other_weights_rng (test_diagnostics.DiagnosticsTests.test_controlled_init_tying_pad_other_weights_rng) ... ok
+test_masks_exclude_pad_separate_content (test_diagnostics.DiagnosticsTests.test_masks_exclude_pad_separate_content) ... ok
+test_metrics_immediate_eos (test_diagnostics.DiagnosticsTests.test_metrics_immediate_eos) ... ok
+test_selection_no_truncation (test_diagnostics.DiagnosticsTests.test_selection_no_truncation) ... ok
+test_pinned_streaming_and_manifest (test_download.DownloadTests.test_pinned_streaming_and_manifest) ... ok
+test_adapter_roundtrip_train_and_eval (test_lora.LoRATests.test_adapter_roundtrip_train_and_eval) ... ok
+test_root_linear_state_and_dtype (test_lora.LoRATests.test_root_linear_state_and_dtype) ... ok
+test_trainable_parameters_and_update (test_lora.LoRATests.test_trainable_parameters_and_update) ... ok
+test_autoregressive_tokens (test_onnx.OnnxTests.test_autoregressive_tokens) ... ok
+test_embedded_sentencepiece_standalone (test_onnx.OnnxTests.test_embedded_sentencepiece_standalone) ... I0000 00:00:1792408274.405452  220864 sentencepiece_trainer.cc:105] Starts training with : 
+trainer_spec {
+  input: /tmp/opencode/onnx-test-1k834nec/sentencepiece/corpus.txt
+  input_format: 
+  model_prefix: /tmp/opencode/onnx-test-1k834nec/sentencepiece/tokenizer
+  model_type: UNIGRAM
+  vocab_size: 128
+  self_test_sample_size: 0
+  character_coverage: 0.9995
+  input_sentence_size: 0
+  shuffle_input_sentence: 1
+  seed_sentencepiece_size: 1000000
+  shrinking_factor: 0.75
+  max_sentence_length: 4192
+  num_threads: 16
+  num_sub_iterations: 2
+  max_sentencepiece_length: 16
+  split_by_unicode_script: 1
+  split_by_number: 1
+  split_by_whitespace: 1
+  split_digits: 0
+  pretokenization_delimiter: 
+  treat_whitespace_as_suffix: 0
+  allow_whitespace_only_pieces: 0
+  user_defined_symbols: <ru2en>
+  user_defined_symbols: <en2ru>
+  required_chars: 
+  byte_fallback: 0
+  vocabulary_output_piece_score: 1
+  train_extremely_large_corpus: 0
+  seed_sentencepieces_file: 
+  hard_vocab_limit: 0
+  use_all_vocab: 0
+  unk_id: 1
+  bos_id: 2
+  eos_id: 3
+  pad_id: 0
+  unk_piece: <unk>
+  bos_piece: <s>
+  eos_piece: </s>
+  pad_piece: <pad>
+  unk_surface:  ⁇ 
+  enable_differential_privacy: 0
+  differential_privacy_noise_level: 0
+  differential_privacy_clipping_threshold: 0
+}
+normalizer_spec {
+  name: nmt_nfkc
+  add_dummy_prefix: 1
+  remove_extra_whitespaces: 1
+  escape_whitespaces: 1
+  normalization_rule_tsv: 
+}
+denormalizer_spec {}
+I0000 00:00:1792408274.405969  220864 trainer_interface.cc:364] SentenceIterator is not specified. Using MultiFileSentenceIterator.
+I0000 00:00:1792408274.406075  220864 trainer_interface.cc:193] Loading corpus: /tmp/opencode/onnx-test-1k834nec/sentencepiece/corpus.txt
+I0000 00:00:1792408274.406093  220864 trainer_interface.cc:422] Loaded all 2 sentences
+I0000 00:00:1792408274.406262  220864 trainer_interface.cc:440] Adding meta_piece: <pad>
+I0000 00:00:1792408274.406338  220864 trainer_interface.cc:440] Adding meta_piece: <unk>
+I0000 00:00:1792408274.406353  220864 trainer_interface.cc:440] Adding meta_piece: <s>
+I0000 00:00:1792408274.406361  220864 trainer_interface.cc:440] Adding meta_piece: </s>
+I0000 00:00:1792408274.406368  220864 trainer_interface.cc:440] Adding meta_piece: <ru2en>
+I0000 00:00:1792408274.406375  220864 trainer_interface.cc:440] Adding meta_piece: <en2ru>
+I0000 00:00:1792408274.406423  220864 trainer_interface.cc:445] Normalizing sentences...
+I0000 00:00:1792408274.410609  220864 trainer_interface.cc:555] all chars count=48
+I0000 00:00:1792408274.410752  220864 trainer_interface.cc:578] Alphabet size=21
+I0000 00:00:1792408274.410768  220864 trainer_interface.cc:579] Final character coverage=1
+I0000 00:00:1792408274.410797  220864 trainer_interface.cc:609] Done! preprocessed 2 sentences.
+I0000 00:00:1792408274.410892  220864 unigram_model_trainer.cc:297] Making suffix array...
+I0000 00:00:1792408274.422745  220864 unigram_model_trainer.cc:301] Extracting frequent sub strings... node_num=23
+I0000 00:00:1792408274.422934  220864 unigram_model_trainer.cc:354] Initialized 32 seed sentencepieces
+I0000 00:00:1792408274.423004  220864 trainer_interface.cc:615] Tokenizing input sentences with whitespace: 2
+I0000 00:00:1792408274.423054  220864 trainer_interface.cc:626] Done! 6
+I0000 00:00:1792408274.423071  220864 unigram_model_trainer.cc:628] Using 6 sentences for EM training
+I0000 00:00:1792408274.426322  220864 unigram_model_trainer.cc:644] EM sub_iter=0 size=18 obj=12.4559 num_tokens=26 num_tokens/piece=1.44444
+I0000 00:00:1792408274.430236  220864 unigram_model_trainer.cc:644] EM sub_iter=1 size=18 obj=10.2403 num_tokens=26 num_tokens/piece=1.44444
+I0000 00:00:1792408274.430452  220864 trainer_interface.cc:702] Saving model: /tmp/opencode/onnx-test-1k834nec/sentencepiece/tokenizer.model
+I0000 00:00:1792408274.431076  220864 trainer_interface.cc:714] Saving vocabs: /tmp/opencode/onnx-test-1k834nec/sentencepiece/tokenizer.vocab
+ok
+test_padded_logits (test_onnx.OnnxTests.test_padded_logits) ... ok
+test_standalone_cli_without_checkpoint (test_onnx.OnnxTests.test_standalone_cli_without_checkpoint) ... ok
+test_padding_ignored (test_overfit.OverfitTest.test_padding_ignored) ... ok
+test_saved_checkpoint_embeds_tokenizer_and_reproduces_metrics (test_overfit.OverfitTest.test_saved_checkpoint_embeds_tokenizer_and_reproduces_metrics) ... ok
+test_selection_never_truncates (test_overfit.OverfitTest.test_selection_never_truncates) ... ok
+test_simple_package_roundtrip (test_package.PackageTests.test_simple_package_roundtrip) ... ok
+test_alignment (test_quality.QualityTests.test_alignment) ... ok
+test_connected_split (test_quality.QualityTests.test_connected_split) ... ok
+test_malformed_and_empty_evaluation (test_quality.QualityTests.test_malformed_and_empty_evaluation) ... ok
+test_quality_schema (test_quality.QualityTests.test_quality_schema) ... ok
+test_regression_exit_and_baseline (test_quality.QualityTests.test_regression_exit_and_baseline) ... usage: regression [-h] --checkpoint CHECKPOINT --data DATA [--source {ru,en}]
+                  [--min-exact-match MIN_EXACT_MATCH] [--baseline BASELINE]
+                  [--max-drop MAX_DROP]
+regression: error: Specify --min-exact-match or --baseline to define a regression gate
+ok
+test_schema (test_quality.QualityTests.test_schema) ... ok
+test_priority_normalization_and_cleaning (test_real_baseline.PreparationTest.test_priority_normalization_and_cleaning) ... ok
+test_cli_stop_resume_and_partial_accumulation (test_training.TrainingTests.test_cli_stop_resume_and_partial_accumulation) ... ok
+test_direction_in_train_and_validation (test_training.TrainingTests.test_direction_in_train_and_validation) ... ok
+test_epoch_resume_matches_uninterrupted (test_training.TrainingTests.test_epoch_resume_matches_uninterrupted) ... ok
+test_reject_invalid_arguments_and_empty_data (test_training.TrainingTests.test_reject_invalid_arguments_and_empty_data) ... ok
+test_teacher_rejects_same_size_different_vocabulary (test_training.TrainingTests.test_teacher_rejects_same_size_different_vocabulary) ... ok
+
+----------------------------------------------------------------------
+Ran 47 tests in 141.793s
+
+OK
+epoch=1 train_loss=9.5514 valid_loss=8.7153
+epoch=1 train_loss=9.5514 valid_loss=8.7153
+epoch=1 train_loss=9.5514 valid_loss=8.7153

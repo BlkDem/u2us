@@ -1,0 +1,168 @@
+{
+  "status": "completed",
+  "arguments": {
+    "train_limit": 8000,
+    "max_steps": 150,
+    "eval_limit": 100,
+    "resume": true
+  },
+  "provenance": {
+    "dataset": "Helsinki-NLP/opus-100",
+    "revision": "805090dc28bf78897da9641cdf08b61287580df9",
+    "license": [
+      "unknown"
+    ],
+    "license_caution": "Unknown/mixed source rights; no legal guarantee or redistribution clearance.",
+    "files": {
+      "train": {
+        "url": "https://huggingface.co/datasets/Helsinki-NLP/opus-100/resolve/805090dc28bf78897da9641cdf08b61287580df9/en-ru/train-00000-of-00001.parquet",
+        "sha256": "9b0b9580abef16fa28d74d2eeae359844e5ad372ebbfb6f8c8560add85aa69de",
+        "download_bytes": 123840514,
+        "selected_rows": 10000,
+        "raw_sha256": "a910e244a2f6d8786f0ff4e379ab790dcd84c827bdb25fab01461bb0b85612dc"
+      },
+      "validation": {
+        "url": "https://huggingface.co/datasets/Helsinki-NLP/opus-100/resolve/805090dc28bf78897da9641cdf08b61287580df9/en-ru/validation-00000-of-00001.parquet",
+        "sha256": "0ecd5bc65260bc543a523470cf982a03e9a7109fb8d3c9d32f7eef97ae288504",
+        "download_bytes": 310090,
+        "selected_rows": 2000,
+        "raw_sha256": "b94348b6355130a843ca3f345b1d7afc7fa5d6a557895328f268b6b661126293"
+      },
+      "test": {
+        "url": "https://huggingface.co/datasets/Helsinki-NLP/opus-100/resolve/805090dc28bf78897da9641cdf08b61287580df9/en-ru/test-00000-of-00001.parquet",
+        "sha256": "96bf7751ebd69615e1377a06cf49bb7d2d153124c77764620de435d0afc71935",
+        "download_bytes": 310212,
+        "selected_rows": 2000,
+        "raw_sha256": "64730fcda8455c398133f4d62e1f544bc2c76e8e27432fe9599d57f0baf0f195"
+      }
+    }
+  },
+  "counts": {
+    "test": 1935,
+    "valid": 1916,
+    "train": 8000
+  },
+  "tokenizer": {
+    "vocab_size": 2000,
+    "training_split": "train only",
+    "sha256": "30829ddb1b560bda0e3e9532eff9964d69458ffab04aa12bfe20e4ca8739e0f9"
+  },
+  "timings_seconds": {
+    "train_ru_en": 30.30998463400101,
+    "decode_ru_en": 25.550145172001066,
+    "evaluate_ru_en": 2.841692038999099,
+    "benchmark_ru_en": 4.1537090109995916,
+    "train_en_ru": 31.40117866900073,
+    "decode_en_ru": 25.065597462998994,
+    "evaluate_en_ru": 2.7461292340012733,
+    "benchmark_en_ru": 4.484634895999989,
+    "total": 129.48808522800027
+  },
+  "results": {
+    "ru_en": {
+      "metrics": {
+        "examples": 100,
+        "BLEU": 0.0,
+        "chrF": 1.3903842732627478
+      },
+      "benchmark": {
+        "checkpoint": "runs/baseline_ru_en/last.pt",
+        "params": 299648,
+        "file_bytes": 4080168,
+        "latency_ms": 228.3368089999082,
+        "sentences_per_second": 4.3794953795662535,
+        "torch_threads": 2
+      },
+      "global_step": 150,
+      "train_loss": 22.03614771525065,
+      "valid_loss": 11.53629542986552,
+      "samples": [
+        {
+          "source": "Только бы не вылететь.",
+          "reference": "If you only stay there.",
+          "hypothesis": "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+        },
+        {
+          "source": "И как ты только справляешься, папа, таская эти коробки взад-вперед целый день.",
+          "reference": "I don't know how you do it, Pop, carrying these boxes around every day.",
+          "hypothesis": "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+        },
+        {
+          "source": "Возможно, у нас есть небольшое преимущество в переговорах.",
+          "reference": "We might have a slight edge in mediation.",
+          "hypothesis": "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+        },
+        {
+          "source": "Сколько времени вы будете делать то, что ему нужно?",
+          "reference": "How long is it going to take you to get him what he needs?",
+          "hypothesis": "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+        },
+        {
+          "source": "1 апреля Президент НКР Бако Саакян принял начальника Генштаба Вооруженных сил Республики Армения генерал-полковника Юрия Хачатурова.",
+          "reference": "On 1 April President of the Nagorno Karabagh Republic Bako Sahakyan met head of the General Staff of the Republic of Armenia's Armed forces colonel-general Yuri Khachaturov.",
+          "hypothesis": "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+        }
+      ]
+    },
+    "en_ru": {
+      "metrics": {
+        "examples": 100,
+        "BLEU": 0.01626285047179945,
+        "chrF": 0.15634400430638673
+      },
+      "benchmark": {
+        "checkpoint": "runs/baseline_en_ru/last.pt",
+        "params": 299648,
+        "file_bytes": 4080168,
+        "latency_ms": 237.2818350001277,
+        "sentences_per_second": 4.214397617076174,
+        "torch_threads": 2
+      },
+      "global_step": 150,
+      "train_loss": 21.720393447875978,
+      "valid_loss": 11.508752346038818,
+      "samples": [
+        {
+          "source": "If you only stay there.",
+          "reference": "Только бы не вылететь.",
+          "hypothesis": "And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And"
+        },
+        {
+          "source": "I don't know how you do it, Pop, carrying these boxes around every day.",
+          "reference": "И как ты только справляешься, папа, таская эти коробки взад-вперед целый день.",
+          "hypothesis": "And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And"
+        },
+        {
+          "source": "We might have a slight edge in mediation.",
+          "reference": "Возможно, у нас есть небольшое преимущество в переговорах.",
+          "hypothesis": "And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And"
+        },
+        {
+          "source": "How long is it going to take you to get him what he needs?",
+          "reference": "Сколько времени вы будете делать то, что ему нужно?",
+          "hypothesis": "And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And And"
+        },
+        {
+          "source": "On 1 April President of the Nagorno Karabagh Republic Bako Sahakyan met head of the General Staff of the Republic of Armenia's Armed forces colonel-general Yuri Khachaturov.",
+          "reference": "1 апреля Президент НКР Бако Саакян принял начальника Генштаба Вооруженных сил Республики Армения генерал-полковника Юрия Хачатурова.",
+          "hypothesis": ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Unknown license: no legal guarantee; upstream source-specific rights require review.",
+    "Tiny CPU smoke baseline, at most 150 batches, not a production translation system.",
+    "First fixed test examples, not full test; max length 64 truncates sentences.",
+    "Greedy decoding; no COMET, GPU, ONNX or full quality tuning.",
+    "Parquet shards downloaded fully, only first 10000 train rows selected.",
+    "Completed with --resume after dependency setup failures; timings cover successful invocation only, not earlier download/tokenizer stages."
+  ],
+  "execution_environment": {
+    "python": ".venv/bin/python",
+    "torch_import_path": "/home/maksim/.local/lib/python3.11/site-packages",
+    "OMP_NUM_THREADS": 2,
+    "MKL_NUM_THREADS": 2,
+    "unit_test": "python -m unittest tests.test_real_baseline -v: passed (1 test)"
+  }
+}

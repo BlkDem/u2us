@@ -1,0 +1,16 @@
+name: realbaseline_128x2
+seed: 42
+vocab_size: 2000
+d_model: 128
+nhead: 4
+encoder_layers: 2
+decoder_layers: 2
+dim_feedforward: 512
+dropout: 0.1
+max_len: 192
+batch_size: 32
+epochs: 100
+lr: 0.001
+label_smoothing: 0.1
+init_mode: controlled
+run_dir: runs/realbaseline_128x2_100c_ru_en
