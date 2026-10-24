@@ -36,7 +36,7 @@ def main():
                                no_repeat_ngram_size=a.no_repeat_ngram_size,
                                repetition_penalty=a.repetition_penalty)[0]
         else:
-            pred = m.greedy(ids, max_len=a.max_len)[0]
+            pred = m.greedy_cached(ids, max_len=a.max_len)[0]
         out.append({'src': row['src'], 'tgt': tok.decode(pred)})
     Path(a.output).parent.mkdir(parents=True, exist_ok=True)
     Path(a.output).write_text('\n'.join(json.dumps(x, ensure_ascii=False) for x in out) + '\n', encoding='utf8')

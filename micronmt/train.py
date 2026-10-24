@@ -120,7 +120,7 @@ def main():
     rows=valid_ds.rows[:a.eval_samples]; hyps=[]; refs=[]; m.eval()
     with torch.no_grad():
      for row in rows:
-      src_text,tgt_text=row[:2]; ids=torch.tensor([tok.encode(('<ru2en>' if a.direction=='ru2en' else '<en2ru>')+' '+src_text,c['max_len'])]).to(dev); hyps.append(tok.decode(m.greedy(ids,max_len=c['max_len'])[0])); refs.append(tgt_text)
+      src_text,tgt_text=row[:2]; ids=torch.tensor([tok.encode(('<ru2en>' if a.direction=='ru2en' else '<en2ru>')+' '+src_text,c['max_len'])]).to(dev); hyps.append(tok.decode(m.greedy_cached(ids,max_len=c['max_len'])[0])); refs.append(tgt_text)
     valid_chrf=sacrebleu.corpus_chrf(hyps,[refs]).score
    except ImportError: pass
   score=(-valid_chrf if valid_chrf is not None else (valid_loss if valid_loss is not None else train_loss))

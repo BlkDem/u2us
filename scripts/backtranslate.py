@@ -22,7 +22,7 @@ for i,r in enumerate(rows):
  text=r['tgt'] if a.direction=='en2ru' else r['src']
  ids=torch.tensor([tok.encode(tag+' '+text,max_len)])
  with torch.no_grad():
-  o=model.greedy(ids,max_len=max_len).tolist()[0]
+  o=model.greedy_cached(ids,max_len=max_len).tolist()[0]
  seq=o[1:]
  if 3 in seq: seq=seq[:seq.index(3)+1]
  hyp=tok.decode(seq)

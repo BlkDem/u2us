@@ -22,7 +22,7 @@ class Translator:
         if context: text=' <context> '+context+' </context> '+text
         if self.terminology: text=control_hint(text,self.terminology,source,target)
         ids=torch.tensor([self.tokenizer.encode(prefix+' '+text,max_len or self.max_len)],device=self.device)
-        out=beam_search(self.model,ids,max_len=max_len or self.max_len,beam_size=beam_size) if beam_size > 1 else self.model.greedy(ids,max_len=max_len or self.max_len)
+        out=beam_search(self.model,ids,max_len=max_len or self.max_len,beam_size=beam_size) if beam_size > 1 else self.model.greedy_cached(ids,max_len=max_len or self.max_len)
         if out.dim()==1: out=out.unsqueeze(0)
         return {'translation':self.tokenizer.decode(out[0]),'source_language':source,'target_language':target}
 
