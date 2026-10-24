@@ -4,6 +4,12 @@ import torch
 from .model import MicroTransformer
 from .tokenizer import SimpleTokenizer
 
+try:
+    from _codecs import encode as _codecs_encode
+    torch.serialization.add_safe_globals([_codecs_encode])
+except (ImportError, AttributeError):
+    pass
+
 KEYS=('d_model','nhead','encoder_layers','decoder_layers','dim_feedforward','dropout','max_len')
 
 

@@ -11,6 +11,14 @@ from .checkpoint import load_tokenizer_metadata, tokenizer_metadata, tokenizer_f
 
 MODEL_KEYS=('d_model','nhead','encoder_layers','decoder_layers','dim_feedforward','dropout','max_len')
 
+def resolve_device(name):
+ if name in (None,'','auto'):
+  return torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+ if str(name).lower() in ('dml','directml'):
+  import torch_directml
+  return torch_directml.device()
+ return torch.device(name)
+
 def load_tokenizer(args, saved, data_path):
  if args.sp_model:
   tok=SentencePieceTokenizer(args.sp_model)
@@ -34,7 +42,7 @@ def build_model(vocab_size, config):
 def main():
  p=argparse.ArgumentParser()
  p.add_argument('--config',required=True); p.add_argument('--data',required=True); p.add_argument('--valid')
- p.add_argument('--resume'); p.add_argument('--sp-model'); p.add_argument('--teacher'); p.add_argument('--direction',choices=['ru2en','en2ru'],default=None); p.add_argument('--grad-accum',type=int,default=1); p.add_argument('--amp',action='store_true'); p.add_argument('--max-steps',type=int,default=0); p.add_argument('--patience',type=int,default=0); p.add_argument('--eval-samples',type=int,default=0)
+ p.add_argument('--resume'); p.add_argument('--sp-model'); p.add_argument('--teacher'); p.add_argument('--direction',choices=['ru2en','en2ru'],default=None); p.add_argument('--device',default='auto'); p.add_argument('--grad-accum',type=int,default=1); p.add_argument('--amp',action='store_true'); p.add_argument('--max-steps',type=int,default=0); p.add_argument('--patience',type=int,default=0); p.add_argument('--eval-samples',type=int,default=0)
  p.add_argument('--history',help='append epoch metrics and fixed validation hypotheses as JSONL')
  a=p.parse_args()
  with open(a.config) as f: c=yaml.safe_load(f)
@@ -42,6 +50,8 @@ def main():
  if c['epochs']<1 or c['batch_size']<1 or c['max_len']<3 or not math.isfinite(c['lr']) or c['lr']<=0: p.error('epochs, batch_size, lr must be positive and max_len >= 3')
  if not 0<=c['label_smoothing']<=1: p.error('label_smoothing must be between 0 and 1')
  random.seed(c['seed']); torch.manual_seed(c['seed'])
+ dev=resolve_device(a.device); amp_device=dev.type if dev.type in ('cpu','cuda') else 'cpu'; amp_enabled=bool(a.amp) and amp_device==dev.type
+ print(f'device={dev} amp={amp_enabled}',flush=True)
  saved=torch.load(a.resume,map_location='cpu',weights_only=True) if a.resume else None
  a.direction=a.direction or (saved.get('direction','ru2en') if saved else 'ru2en')
  tok=load_tokenizer(a,saved,a.data)
@@ -54,16 +64,17 @@ def main():
  valid_ds,valid_dl=loader(a.valid) if a.valid else (None,None)
  m=build_model(tok.vocab_size,c)
  if saved: m.load_state_dict(saved['model'])
+ m.to(dev)
  teacher=None
  if a.teacher:
   tq=torch.load(a.teacher,map_location='cpu',weights_only=True)
   teacher_tok=load_tokenizer_metadata(tq['tokenizer'],a.teacher)
   if tokenizer_fingerprint(tok)!=tokenizer_fingerprint(teacher_tok): raise ValueError('teacher tokenizer is incompatible with student tokenizer')
-  teacher=build_model(tok.vocab_size,tq['config']); teacher.load_state_dict(tq['model']); teacher.eval()
+  teacher=build_model(tok.vocab_size,tq['config']); teacher.load_state_dict(tq['model']); teacher.eval(); teacher.to(dev)
   for param in teacher.parameters(): param.requires_grad_(False)
  opt=torch.optim.AdamW(m.parameters(),lr=c['lr'])
  scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(opt,max(1,c['epochs']*math.ceil(len(dl)/a.grad_accum)))
- ce=torch.nn.CrossEntropyLoss(ignore_index=tok.pad_id,label_smoothing=c['label_smoothing']); scaler=torch.amp.GradScaler('cpu',enabled=a.amp)
+ ce=torch.nn.CrossEntropyLoss(ignore_index=tok.pad_id,label_smoothing=c['label_smoothing']); scaler=torch.amp.GradScaler(amp_device,enabled=amp_enabled)
  if saved:
   if 'optimizer' in saved: opt.load_state_dict(saved['optimizer'])
   if 'scheduler' in saved: scheduler.load_state_dict(saved['scheduler'])
@@ -84,9 +95,10 @@ def main():
   for step,(src,tgt) in enumerate(dl):
    if step<offset: continue
    if processed>=remaining: break
+   src=src.to(dev); tgt=tgt.to(dev)
    # Normalize each accumulation window by its actual size, including the last partial window.
    window=min(a.grad_accum,remaining-(processed//a.grad_accum)*a.grad_accum)
-   with torch.autocast('cpu',enabled=a.amp):
+   with torch.autocast(amp_device,enabled=amp_enabled):
     student=m(src,tgt[:,:-1]); hard=tgt[:,1:]
     with torch.no_grad(): teacher_logits=teacher(src,tgt[:,:-1]) if teacher else None
     loss=distillation_loss(student,hard,teacher_logits,tok.pad_id,alpha,beta,temperature) if teacher else ce(student.reshape(-1,student.size(-1)),hard.reshape(-1))
@@ -98,6 +110,7 @@ def main():
    m.eval(); total=0
    with torch.no_grad():
     for src,tgt in valid_dl:
+     src=src.to(dev); tgt=tgt.to(dev)
      logits=m(src,tgt[:,:-1]); total+=ce(logits.reshape(-1,logits.size(-1)),tgt[:,1:].reshape(-1)).item()
    valid_loss=total/len(valid_dl)
   valid_chrf=None; hyps=[]; refs=[]; rows=[]
@@ -107,7 +120,7 @@ def main():
     rows=valid_ds.rows[:a.eval_samples]; hyps=[]; refs=[]; m.eval()
     with torch.no_grad():
      for row in rows:
-      src_text,tgt_text=row[:2]; ids=torch.tensor([tok.encode(('<ru2en>' if a.direction=='ru2en' else '<en2ru>')+' '+src_text,c['max_len'])]); hyps.append(tok.decode(m.greedy(ids,max_len=c['max_len'])[0])); refs.append(tgt_text)
+      src_text,tgt_text=row[:2]; ids=torch.tensor([tok.encode(('<ru2en>' if a.direction=='ru2en' else '<en2ru>')+' '+src_text,c['max_len'])]).to(dev); hyps.append(tok.decode(m.greedy(ids,max_len=c['max_len'])[0])); refs.append(tgt_text)
     valid_chrf=sacrebleu.corpus_chrf(hyps,[refs]).score
    except ImportError: pass
   score=(-valid_chrf if valid_chrf is not None else (valid_loss if valid_loss is not None else train_loss))
@@ -120,7 +133,7 @@ def main():
   if improved: best=score; bad_epochs=0
   else: bad_epochs+=1
   next_offset=offset+processed; complete=next_offset==len(dl)
-  payload={'model':m.state_dict(),'config':c,'tokenizer':tokenizer_metadata(tok),'epoch':ep+1 if complete else ep,'batch_offset':0 if complete else next_offset,'global_step':global_step,'best':best,'bad_epochs':bad_epochs,'python_rng_state':random.getstate(),'torch_rng_state':torch.get_rng_state(),'direction':a.direction,'train_loss':train_loss,'valid_loss':valid_loss,'teacher':a.teacher,'distillation':{'alpha_hard':alpha,'beta_kl':beta,'temperature':temperature},'optimizer':opt.state_dict(),'scheduler':scheduler.state_dict(),'scaler':scaler.state_dict()}
+  payload={'model':{k:v.detach().cpu() for k,v in m.state_dict().items()},'config':c,'tokenizer':tokenizer_metadata(tok),'epoch':ep+1 if complete else ep,'batch_offset':0 if complete else next_offset,'global_step':global_step,'best':best,'bad_epochs':bad_epochs,'python_rng_state':random.getstate(),'torch_rng_state':torch.get_rng_state(),'direction':a.direction,'train_loss':train_loss,'valid_loss':valid_loss,'teacher':a.teacher,'distillation':{'alpha_hard':alpha,'beta_kl':beta,'temperature':temperature},'optimizer':opt.state_dict(),'scheduler':scheduler.state_dict(),'scaler':scaler.state_dict()}
   torch.save(payload,Path(c['run_dir'])/'last.pt')
   if improved: torch.save(payload,Path(c['run_dir'])/'best.pt')
   if a.patience and bad_epochs>=a.patience: print('early_stop=true'); break

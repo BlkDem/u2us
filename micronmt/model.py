@@ -38,9 +38,10 @@ class MicroTransformer(nn.Module):
         tgt_key = tgt.eq(pad_id)
         memory = self.encoder(self.add_pos(self.embedding(src) * math.sqrt(self.d_model)),
                               src_key_padding_mask=src_key)
-        causal = torch.triu(torch.ones(tgt.size(1), tgt.size(1), device=tgt.device, dtype=torch.bool), diagonal=1)
+        causal = torch.zeros(tgt.size(1), tgt.size(1), device=tgt.device).masked_fill(
+            torch.triu(torch.ones(tgt.size(1), tgt.size(1), device=tgt.device, dtype=torch.bool), diagonal=1), float('-inf'))
         out = self.decoder(self.add_pos(self.embedding(tgt) * math.sqrt(self.d_model)), memory,
-                           tgt_mask=causal, tgt_key_padding_mask=tgt_key,
+                           tgt_mask=causal, tgt_is_causal=True, tgt_key_padding_mask=tgt_key,
                            memory_key_padding_mask=src_key)
         return self.output(self.norm(out))
 

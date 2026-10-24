@@ -33,7 +33,7 @@ class CheckpointTests(unittest.TestCase):
     def test_invalid_rows(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'data.jsonl'
-            path.write_text('null\n[]\n{"src": null, "tgt":"x"}\n{"src":"hello","tgt":"привет"}\n')
+            path.write_text('null\n[]\n{"src": null, "tgt":"x"}\n{"src":"hello","tgt":"привет"}\n', encoding='utf8')
             self.assertEqual(len(ParallelDataset(path, SimpleTokenizer())), 1)
 
     def test_invalid_vocabulary(self):

@@ -1,0 +1,16 @@
+name: opus100_teacher_mixed
+seed: 42
+vocab_size: 16000
+d_model: 128
+nhead: 4
+encoder_layers: 2
+decoder_layers: 2
+dim_feedforward: 512
+dropout: 0.1
+max_len: 256
+batch_size: 32
+epochs: 20
+lr: 0.0005
+label_smoothing: 0.1
+init_mode: controlled
+run_dir: runs/opus100_teacher_mixed_ru_en

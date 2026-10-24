@@ -27,7 +27,7 @@ class OnnxTests(unittest.TestCase):
         cls.old_threads = torch.get_num_threads()
         torch.set_num_threads(1)
         cls.addClassCleanup(torch.set_num_threads, cls.old_threads)
-        cls.temp = tempfile.TemporaryDirectory(prefix='onnx-test-', dir='/tmp/opencode')
+        cls.temp = tempfile.TemporaryDirectory(prefix='onnx-test-')
         cls.addClassCleanup(cls.temp.cleanup)
         cls.directory = Path(cls.temp.name)
         cls.root = Path(__file__).resolve().parents[1]
