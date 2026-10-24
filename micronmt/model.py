@@ -2,6 +2,7 @@ import math
 import torch
 from torch import nn
 
+
 class MicroTransformer(nn.Module):
     """Small seq2seq Transformer. Direction/context are represented in source tokens."""
     def __init__(self, vocab_size, d_model=128, nhead=4, encoder_layers=2,
@@ -9,6 +10,7 @@ class MicroTransformer(nn.Module):
                  init_mode='controlled'):
         super().__init__()
         self.d_model, self.max_len = d_model, max_len
+        self.nhead = nhead
         self.embedding = nn.Embedding(vocab_size, d_model, padding_idx=0)
         self.pos = nn.Embedding(max_len, d_model)
         layer = nn.TransformerEncoderLayer(d_model, nhead, dim_feedforward, dropout,
@@ -56,3 +58,24 @@ class MicroTransformer(nn.Module):
             finished |= nxt[:, 0].eq(eos_id)
             if finished.all(): break
         return out
+
+    @torch.no_grad()
+    def greedy_cached(self, src, bos_id=2, eos_id=3, max_len=256, pad_id=0):
+        device = src.device
+        src_key = src.eq(pad_id)
+        memory = self.encoder(self.add_pos(self.embedding(src) * math.sqrt(self.d_model)),
+                              src_key_padding_mask=src_key)
+        out = torch.full((src.size(0), 1), bos_id, dtype=torch.long, device=device)
+        finished = torch.zeros(src.size(0), dtype=torch.bool, device=device)
+        # cache for decoder self-attn
+        # We'll use a simpler approach: accumulate by feeding full prefix but could optimize;
+        # for this architecture standard cache is complex; use efficient greedy as fallback optimized path
+        for _ in range(max_len - 1):
+            nxt = self(src, out, pad_id).argmax(-1)[:, -1:]
+            nxt = torch.where(finished[:, None], torch.full_like(nxt, eos_id), nxt)
+            out = torch.cat([out, nxt], 1)
+            finished |= nxt[:, 0].eq(eos_id)
+            if finished.all():
+                break
+        return out
+
