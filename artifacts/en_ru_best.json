@@ -1,0 +1,15 @@
+{
+  "direction": "en->ru",
+  "checkpoint": "runs/opus100_teacher_bt_en_ru/best.pt",
+  "tokenizer": "data/tokenizer/opus100/sp_16k.model",
+  "decoding": {
+    "beam_size": 4,
+    "length_penalty": 0.6,
+    "no_repeat_ngram_size": 3,
+    "repetition_penalty": 1.0
+  },
+  "test": {
+    "bleu": 13.40198246177794,
+    "chrf": 32.89390424921961
+  }
+}
