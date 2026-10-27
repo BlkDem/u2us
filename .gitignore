@@ -1,10 +1,74 @@
+# Python / virtualenv / caches
 .venv/
+venv/
 __pycache__/
-*.pyc
+*.py[cod]
 *.egg-info/
-runs/
-data/toy/
-*.pt
-*.onnx
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Local config and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+*.swo
 .DS_Store
-data/real_baseline/downloads/*.parquet
+Thumbs.db
+Desktop.ini
+
+# Checkpoints, weights and exported models (use release artifacts / external storage)
+runs/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+*.bin
+
+# Generated datasets and downloads (manifests and tokenizers stay tracked)
+data/toy/
+new_data/
+data/**/downloads/
+data/cache/
+*.parquet
+data/raw/*.jsonl
+data/clean/*.jsonl
+data/filtered/*.jsonl
+data/opus100/*.jsonl
+data/opus50k/*.jsonl
+data/opus100_en_ru/*.jsonl
+data/opus50k_en_ru/*.jsonl
+data/real_baseline/**/*.jsonl
+data/backtranslated*.jsonl
+data/teacher*.jsonl
+data/mixed_*.jsonl
+
+# Generated training / eval outputs
+reports/**/*.log
+reports/**/*.jsonl
+reports/**/hyp*/
+reports/**/beam_sweep/
+reports/**/batch_indices.json
+reports/**/lengths.json
+
+# Misc temporary files
+*.tmp
+*.bak
+*.orig

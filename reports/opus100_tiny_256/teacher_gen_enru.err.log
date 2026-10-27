@@ -1,2 +1,0 @@
-C:\Users\maxim\projects\u2us\u2us\.venv\Lib\site-packages\transformers\models\marian\tokenization_marian.py:175: UserWarning: Recommended: pip install sacremoses.
-  warnings.warn("Recommended: pip install sacremoses.")

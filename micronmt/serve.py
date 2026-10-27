@@ -62,6 +62,39 @@ def _content_to_text(content):
     return ''
 
 
+_DECODING_KEYS = ('beam_size', 'length_penalty', 'no_repeat_ngram_size', 'repetition_penalty')
+
+
+def _decoding_overrides(payload):
+    decoding = payload.get('decoding')
+    merged = dict(decoding) if isinstance(decoding, dict) else {}
+    for key in _DECODING_KEYS:
+        if key in payload:
+            merged[key] = payload[key]
+    overrides = {}
+    if 'beam_size' in merged:
+        value = merged['beam_size']
+        if not isinstance(value, int) or isinstance(value, bool) or value < 1:
+            raise ValueError('beam_size must be an integer >= 1')
+        overrides['beam_size'] = value
+    if 'no_repeat_ngram_size' in merged:
+        value = merged['no_repeat_ngram_size']
+        if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+            raise ValueError('no_repeat_ngram_size must be an integer >= 0')
+        overrides['no_repeat_ngram_size'] = value
+    if 'length_penalty' in merged:
+        value = merged['length_penalty']
+        if not isinstance(value, (int, float)) or isinstance(value, bool) or value < 0:
+            raise ValueError('length_penalty must be a number >= 0')
+        overrides['length_penalty'] = float(value)
+    if 'repetition_penalty' in merged:
+        value = merged['repetition_penalty']
+        if not isinstance(value, (int, float)) or isinstance(value, bool) or value < 1:
+            raise ValueError('repetition_penalty must be a number >= 1')
+        overrides['repetition_penalty'] = float(value)
+    return overrides
+
+
 def _chat_prompt(messages):
     if not isinstance(messages, list) or not messages:
         return None
@@ -195,8 +228,9 @@ class TranslationHandler(BaseHTTPRequestHandler):
     def _translate(self, text, payload):
         model = payload.get('model') or self.server.model_name
         source = resolve_direction(payload, model, self.server.default_source)
+        overrides = _decoding_overrides(payload)
         with self.server.lock:
-            result = self.server.translator.translate(text, source=source)
+            result = self.server.translator.translate(text, source=source, **overrides)
         return model, result
 
     def _chat_completion(self, payload):

@@ -51,6 +51,28 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
+## Харнесс для eval
+
+`micronmt/harness.py` прогоняет чекпоинт или запущенный HTTP API по JSONL, перебирает конфиги декодирования и считает BLEU/chrF (опционально COMET):
+
+```bash
+# sweep по локальному чекпоинту + сохранение гипотез и отчёта
+python -m micronmt.harness --checkpoint runs/opus100_teacher_bt_en_ru/best.pt \
+  --data data/opus100_en_ru/test.jsonl --source en \
+  --beam-size 1 4 --length-penalty 0.6 --no-repeat-ngram-size 0 3 \
+  --out reports/harness_en_ru.json --hyp-dir reports/hyp_en_ru
+
+# тот же sweep через OpenAI-совместимый API
+python -m micronmt.harness --api-url http://127.0.0.1:8000/v1 \
+  --data data/opus100_en_ru/test.jsonl --source en --beam-size 1 4
+
+# регрессионный гейт: не хуже baseline более чем на 0.5 пункта BLEU/chrF
+python -m micronmt.harness --checkpoint runs/tiny/best.pt --data data/opus100/test.jsonl \
+  --baseline reports/harness_en_ru.json --max-drop 0.5
+```
+
+Конфиги можно задать файлом (`--config decode.json` — JSON-список объектов с ключами `beam_size`, `length_penalty`, `no_repeat_ngram_size`, `repetition_penalty`). Отчёт содержит все конфиги, лучший по BLEU/chrF и результат гейта; код возврата 1 при провале гейта.
+
 ## Компоненты
 
 - `micronmt/model.py` — компактный Transformer с shared embeddings, direction token и context support.
@@ -61,6 +83,7 @@ print(response.choices[0].message.content)
 - `micronmt/terminology.py` — термины передаются как source-side control hints, без global replace.
 - `micronmt/export.py` — ONNX export; production runtime не требует PyTorch.
 - `micronmt/serve.py` — OpenAI-совместимый HTTP API поверх `Translator` (stdlib, без FastAPI).
+- `micronmt/harness.py` — eval-харнесс: sweep конфигов декодирования для чекпоинта или API, BLEU/chrF/COMET, отчёт и регрессионный гейт.
 - `micronmt/evaluate.py` — BLEU/chrF and optional COMET JSON report.
 - `micronmt/benchmark.py` — CPU latency, throughput, parameter count and checkpoint size.
 
