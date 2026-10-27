@@ -29,6 +29,28 @@ python -m micronmt.infer --checkpoint runs/tiny/best.pt --text 'Я решил о
 
 Для реальных данных используйте JSONL `{ "src": "...", "tgt": "...", "source": "..." }`; test никогда не передавайте в train. `scripts/prepare_data.py` фильтрует, нормализует, deduplicates и делит корпус.
 
+## OpenAI-совместимый API
+
+`micronmt/serve.py` поднимает HTTP-сервер без дополнительных зависимостей (stdlib) с эндпоинтами `/v1/models`, `/v1/chat/completions`, `/v1/completions`, `/health` и SSE-стримингом:
+
+```bash
+python -m micronmt.serve --checkpoint runs/opus100_teacher_bt_en_ru/best.pt \
+  --source en --beam-size 4 --length-penalty 0.6 --no-repeat-ngram-size 3
+# опционально: --host 0.0.0.0 --port 8000 --model-name micronmt --api-key "$MICRONMT_API_KEY"
+```
+
+Направление задаётся именем модели (`ru2en`, `en2ru`, `micronmt-en-ru`) или полями `source`/`source_language` в запросе; по умолчанию используется `--source`.
+
+```python
+from openai import OpenAI
+client = OpenAI(base_url='http://127.0.0.1:8000/v1', api_key='not-needed')
+response = client.chat.completions.create(
+    model='en2ru',
+    messages=[{'role': 'user', 'content': 'Hello world'}],
+)
+print(response.choices[0].message.content)
+```
+
 ## Компоненты
 
 - `micronmt/model.py` — компактный Transformer с shared embeddings, direction token и context support.
@@ -38,6 +60,7 @@ python -m micronmt.infer --checkpoint runs/tiny/best.pt --text 'Я решил о
 - `micronmt/adapt.py` — lightweight LoRA-ready adaptation hook (требует PEFT для полноценного режима).
 - `micronmt/terminology.py` — термины передаются как source-side control hints, без global replace.
 - `micronmt/export.py` — ONNX export; production runtime не требует PyTorch.
+- `micronmt/serve.py` — OpenAI-совместимый HTTP API поверх `Translator` (stdlib, без FastAPI).
 - `micronmt/evaluate.py` — BLEU/chrF and optional COMET JSON report.
 - `micronmt/benchmark.py` — CPU latency, throughput, parameter count and checkpoint size.
 
