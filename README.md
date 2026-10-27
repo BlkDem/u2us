@@ -130,3 +130,9 @@ BLEU/chrF/COMET и human evaluation. Текущие ограничения и т
 Для исследования используйте OPUS/OpenSubtitles, JW300, ParaCrawl/ELRC и human-curated validation/test с лицензиями, записанными в manifest. Teacher должен быть сильной открытой NMT-моделью (например NLLB/Marian, совместимой с вашим языковым покрытием), а synthetic pairs смешиваются с real в конфиге. В MVP teacher logits подключаются через `teacher_logits` в batch; KL loss имеет temperature и alpha/beta.
 
 Continual learning: `--resume` + replay buffer старых данных, regression set и обязательное сравнение до/после. Доменные адаптации сохраняйте отдельными adapter/checkpoint, не перезаписывая base.
+
+## Лицензия
+
+Код проекта распространяется по лицензии MIT (см. `LICENSE`).
+
+**Данные, токенизаторы и обученные веса — research-only.** OPUS-100 на зафиксированном revision имеет `license: unknown`, поэтому в манифестах стоит `production_approved: false`: права на распространение и commercial use весов не подтверждены. Backtranslation/synthetic данные дополнительно зависят от лицензии teacher-модели. Лицензия кода не распространяется на данные и веса; до выяснения прав не публикуйте веса и release-артефакты как готовый продукт.
