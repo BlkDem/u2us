@@ -1,0 +1,21 @@
+{
+  "checkpoint": "runs/opus100_en_ru/best.pt",
+  "params": 3006720,
+  "file_bytes": 37040097,
+  "torch_threads": 1,
+  "load_seconds": 0.23,
+  "memory_after_load": {
+    "rss_mb": 232.7,
+    "peak_mb": 238.5
+  },
+  "memory_after_inference": {
+    "rss_mb": 254.9,
+    "peak_mb": 276.2
+  },
+  "samples": 30,
+  "latency_ms_single_core": {
+    "min": 28.7,
+    "median": 70.4,
+    "max": 14436.5
+  }
+}

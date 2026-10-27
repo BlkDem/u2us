@@ -1,0 +1,12 @@
+{
+  "dataset": "Helsinki-NLP/opus-100",
+  "revision": "805090dc28bf78897da9641cdf08b61287580df9",
+  "license": "unknown",
+  "production_approved": false,
+  "config": "en-ru",
+  "split": "train",
+  "source": "ru",
+  "target": "en",
+  "count": 100000,
+  "sha256": "d918e503d3b12322079d29e2f349165fdc0ee232570eea9ecad90436c0062c0f"
+}

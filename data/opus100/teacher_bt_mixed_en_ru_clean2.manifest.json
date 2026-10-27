@@ -1,0 +1,27 @@
+{
+  "seed": 42,
+  "transform": "real opus100 en->ru + reversed teacher_ru_en pairs (synthetic en source, human ru target)",
+  "inputs": {
+    "real": {
+      "path": "data\\opus100_en_ru\\train.jsonl",
+      "rows": 85914,
+      "sha256": "dd10b6e864821057687e5139c13359370a206c877ee217e0b4eb6c60ee52b895"
+    },
+    "teacher_ru_en": {
+      "path": "data\\opus100\\teacher_ru_en.jsonl",
+      "rows": 85914,
+      "sha256": "10087b539c5af7d73c72ab2e9b5493b0fc54b8eed087d303b54e354cd5ca59d2"
+    }
+  },
+  "counts": {
+    "real": 85914,
+    "synthetic": 85914,
+    "total": 171828
+  },
+  "output_sha256": "beacc6da082f9760ce6d9523b2aa4968156fde7068e54ca6456c6fc9c3125c61",
+  "clean2": {
+    "path": "data\\opus100\\teacher_bt_mixed_en_ru_clean2.jsonl",
+    "rows": 125440,
+    "sha256": "3f2150c638035e5fa95e22981bd917258dc5ab550ebf80c55f31754ec64eecf5"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "checkpoint": "runs/opus100_teacher_bt_en_ru/best.pt",
+  "params": 3006720,
+  "file_bytes": 37040097,
+  "latency_ms": 55.98755999999412,
+  "sentences_per_second": 17.861110575279668,
+  "torch_threads": 8
+}

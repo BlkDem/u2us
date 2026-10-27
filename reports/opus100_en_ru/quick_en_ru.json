@@ -1,0 +1,42 @@
+[
+  {
+    "src": "Hello, how are you?",
+    "hyp": "Привет, как ты?"
+  },
+  {
+    "src": "I love you.",
+    "hyp": "Я люблю тебя."
+  },
+  {
+    "src": "That's more than a little suspicious.",
+    "hyp": "Это больше небольшая."
+  },
+  {
+    "src": "Where is the nearest train station?",
+    "hyp": "Где рядом, а где успокойная поездка?"
+  },
+  {
+    "src": "The weather is nice today.",
+    "hyp": "Хорошее поговаривает сегодня."
+  },
+  {
+    "src": "This is a very important issue for our country.",
+    "hyp": "Это очень важно для нашей стране."
+  },
+  {
+    "src": "I would like to book a table for two.",
+    "hyp": "Я бы хотел бы книгу на два."
+  },
+  {
+    "src": "He said that he would come tomorrow.",
+    "hyp": "Он сказал, что он будет завтра."
+  },
+  {
+    "src": "The results were better than expected.",
+    "hyp": "Мы должны быть, чем ожидали."
+  },
+  {
+    "src": "Please send me the report by Friday.",
+    "hyp": "Пожалуйста, отпустили на пятницу."
+  }
+]

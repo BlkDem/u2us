@@ -1,0 +1,8 @@
+{
+  "checkpoint": "runs\\opus50k_tiny_256_ru_en\\best.pt",
+  "params": 1982720,
+  "file_bytes": 24467681,
+  "latency_ms": 13.292789999832166,
+  "sentences_per_second": 75.22875182806814,
+  "torch_threads": 8
+}

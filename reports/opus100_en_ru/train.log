@@ -1,0 +1,22 @@
+device=cpu amp=False
+epoch=1 train_loss=6.4926 valid_loss=5.9002 valid_chrf=4.596
+epoch=2 train_loss=5.6365 valid_loss=5.4275 valid_chrf=9.652
+epoch=3 train_loss=5.1955 valid_loss=5.1220 valid_chrf=14.231
+epoch=4 train_loss=4.9000 valid_loss=4.9259 valid_chrf=18.139
+epoch=5 train_loss=4.6898 valid_loss=4.7964 valid_chrf=21.125
+epoch=6 train_loss=4.5328 valid_loss=4.7027 valid_chrf=22.441
+epoch=7 train_loss=4.4112 valid_loss=4.6317 valid_chrf=22.674
+epoch=8 train_loss=4.3117 valid_loss=4.5815 valid_chrf=24.045
+epoch=9 train_loss=4.2295 valid_loss=4.5445 valid_chrf=24.337
+epoch=10 train_loss=4.1597 valid_loss=4.5113 valid_chrf=25.320
+epoch=11 train_loss=4.0982 valid_loss=4.4882 valid_chrf=25.169
+epoch=12 train_loss=4.0456 valid_loss=4.4692 valid_chrf=26.783
+epoch=13 train_loss=4.0011 valid_loss=4.4536 valid_chrf=27.317
+epoch=14 train_loss=3.9609 valid_loss=4.4439 valid_chrf=27.381
+epoch=15 train_loss=3.9299 valid_loss=4.4332 valid_chrf=26.834
+epoch=16 train_loss=3.9021 valid_loss=4.4267 valid_chrf=26.426
+epoch=17 train_loss=3.8813 valid_loss=4.4232 valid_chrf=27.267
+epoch=18 train_loss=3.8665 valid_loss=4.4225 valid_chrf=26.949
+epoch=19 train_loss=3.8568 valid_loss=4.4222 valid_chrf=26.711
+epoch=20 train_loss=3.8508 valid_loss=4.4232 valid_chrf=26.908
+early_stop=true

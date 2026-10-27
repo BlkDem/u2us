@@ -1,0 +1,10 @@
+{
+  "seed": 42,
+  "source_dir": "data/opus100",
+  "transform": "swap src<->tgt for en->ru direction",
+  "counts": {
+    "train": 85914,
+    "valid": 1789,
+    "test": 1789
+  }
+}
